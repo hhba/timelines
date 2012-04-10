@@ -15,7 +15,7 @@ Una propuesta para el desarrollo utilizaría la siguiente tecnología:
 
  * __Raphael__ - http://raphaeljs.com/
  * __jQuery__ - http://jquery.com/
- * __Coffeescript__ - http://coffeescript.org/
+ * __Coffeescript__ - http://coffeescript.org/ | [The little book on Coffeescript](http://arcturo.github.com/library/coffeescript/index.html)
 
 ## Algunas referencias que pueden interesar y servir:
 
@@ -33,9 +33,3 @@ Una propuesta para el desarrollo utilizaría la siguiente tecnología:
 
  * Muchísimos links a sitios de visualizacion: http://dailytekk.com/2012/02/27/over-100-incredible-infographic-tools-and-resources/
 
-## Coffeescript
-
-Algunos links a info de Coffeescript:
-
- * http://coffeescript.org/
- * The little book on Coffeescript: http://arcturo.github.com/library/coffeescript/index.html
