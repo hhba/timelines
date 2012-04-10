@@ -17,3 +17,20 @@ Una propuesta para el desarrollo utilizaría la siguiente tecnología:
  * __jQuery__ - http://jquery.com/
  * __Coffeescript__ - http://coffeescript.org/
 
+## Algunas referencias que pueden interesar y servir:
+
+### sankey / flow diagrams:
+
+ * version JS (Coffeescript) + Raphael: http://tamc.github.com/Sankey/
+ * version Python: http://matplotlib.sourceforge.net/examples/api/sankey_demo_old.html
+ * Un poco de teoría: http://www.svgopen.org/2003/papers/RenderingGraphs/index.html
+
+ * Morris.js: para generar gráficos con Raphael + JS: http://oesmith.github.com/morris.js/
+ * Varios sitios de visualizacion: http://dailytekk.com/2012/02/27/over-100-incredible-infographic-tools-and-resources/
+
+## Coffeescript
+
+Algunos links a info de Coffeescript:
+
+ * http://coffeescript.org/
+ * The little book on Coffeescript: http://arcturo.github.com/library/coffeescript/index.html
