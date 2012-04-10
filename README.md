@@ -25,8 +25,13 @@ Una propuesta para el desarrollo utilizaría la siguiente tecnología:
  * version Python: http://matplotlib.sourceforge.net/examples/api/sankey_demo_old.html
  * Un poco de teoría: http://www.svgopen.org/2003/papers/RenderingGraphs/index.html
 
+### Morris una librería para graficar
+
  * Morris.js: para generar gráficos con Raphael + JS: http://oesmith.github.com/morris.js/
- * Varios sitios de visualizacion: http://dailytekk.com/2012/02/27/over-100-incredible-infographic-tools-and-resources/
+
+### Sitios generales de visualizacion
+
+ * Muchísimos links a sitios de visualizacion: http://dailytekk.com/2012/02/27/over-100-incredible-infographic-tools-and-resources/
 
 ## Coffeescript
 
