@@ -140,7 +140,10 @@ Graficador.prototype.loadData = function (data) {
 //		for (var ii = 0; ii < data[i].segments.length ; ii++){
 		for (var ii = 0; ii < linesAndData[0].length ; ii++){
 //			var thisStringLine = this.makeStringLine([data[i].segments[ii].start, data[i].segments[ii].end]);
-			var thisStringLine = this.makeStringLine(linesAndData[0][ii]);
+			//var thisStringLine = this.makeStringLine(linesAndData[0][ii]);
+			//var thisStringLinea = this.makeStringLine(linesAndData[0][ii]);
+			//var thisLinea = this.paper.path(thisStringLinea);
+			var thisStringLine = this.makeRoundStringLine(linesAndData[0][ii]);
 			var thisLine = this.paper.path(thisStringLine);
 			var opts = {};
 			for (key in this.defaultLine)
@@ -196,20 +199,19 @@ Graficador.prototype.makeRoundStringLine = function(arr) {
 		var Zy = (Ay-By)/2 + By;
 		return [Zx, Zy];
 	}
-	var string = '';
-	for (var i=0; i < arr.length; i++) {
-		string += (i == 0)? 'M' : 'L';
-
-		Z = midPoint(point[X], point[Y], next[X], next[Y]);
-		path_string += " "+Z[X]+","+Z[Y];
-		path_string += "Q"+next[X]+","+next[Y];
-
-		string += (arr[i][0]*this.config.kx+this.config['margin-left'])+','+(arr[i][1]*this.config.ky+this.config['margin-top']);
-
-
-
-
+	var string = 'M';
+	string += 'M'+ (arr[0][0]*this.config.kx+this.config['margin-left'])+','+(arr[0][1]*this.config.ky+this.config['margin-top']);
+	var Z = [
+		arr[arr.length-2][0]*this.config.kx+this.config['margin-left'],
+		arr[arr.length-2][1]*this.config.ky+this.config['margin-top']
+	];
+	for (var i=1; i < arr.length-1; i++) {
+		string += 'Q'+(arr[i][0]*this.config.kx+this.config['margin-left'])+','+(arr[i][1]*this.config.ky+this.config['margin-top']);
+		Z = midPoint(arr[i][0]*this.config.kx+this.config['margin-left'], arr[i][1]*this.config.ky+this.config['margin-top'], arr[i+1][0]*this.config.kx+this.config['margin-left'], arr[i+1][1]*this.config.ky+this.config['margin-top']);
+		string += " "+Z[0]+","+Z[1];
 	}
+	string += 'Q'+Z[0]+","+Z[1]+' '+(arr[arr.length-1][0]*this.config.kx+this.config['margin-left'])+','+(arr[arr.length-1][1]*this.config.ky+this.config['margin-top']);
+	return string;
 };
 
 Graficador.prototype.makeStringLine = function(arr) {
