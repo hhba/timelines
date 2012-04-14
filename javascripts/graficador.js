@@ -126,14 +126,19 @@ Graficador.prototype.defaultLine = {};
 Graficador.prototype.loadData = function (data) {
 	for (var i=0; i< data.length; i++) {
 		this.writeText(data[i]);
-		for (var ii = 0; ii < data[i].segments.length ; ii++){
-			var thisStringLine = this.makeStringLine([data[i].segments[ii].start, data[i].segments[ii].end]);
+		var linesAndData = this.joinLine(data[i].segments);
+//		for (var ii = 0; ii < data[i].segments.length ; ii++){
+		for (var ii = 0; ii < linesAndData[0].length ; ii++){
+//			var thisStringLine = this.makeStringLine([data[i].segments[ii].start, data[i].segments[ii].end]);
+			var thisStringLine = this.makeStringLine(linesAndData[0][ii]);
 			var thisLine = this.paper.path(thisStringLine);
 			var opts = {};
 			for (key in this.defaultLine)
 				opts[key] = this.defaultLine[key];
-			opts['stroke'] = data[i].segments[ii].attributes.color;
-			opts['color'] = data[i].segments[ii].attributes.color;
+			//opts['stroke'] = data[i].segments[ii].attributes.color;
+			opts['stroke'] = linesAndData[1][ii].color;
+			//opts['color'] = data[i].segments[ii].attributes.color;
+			opts['color'] = linesAndData[1][ii].color;
 			thisLine.attr(opts);
 		}
 	}
@@ -142,6 +147,26 @@ Graficador.prototype.loadData = function (data) {
 Graficador.prototype.makeRoundStringLine = function(arr) {
 	var string = '';
 }
+Graficador.prototype.joinLine = function(segments) {
+	var ret = [], 
+		line = 0,
+		attr = [];
+	for (var i = 0; i < segments.length; i++) {
+		if (!ret[line]) {
+			ret[line] = [segments[i].start];
+			attr[line] = segments[i].attributes;
+		}
+		if (ret[line][ret[line].length-1][0] == segments[i].start[0] && ret[line][ret[line].length-1][1] == segments[i].start[1])
+			ret[line].push(segments[i].end);
+		else {
+			ret[++line] = [segments[i].start];
+			attr[line] = segments[i].attributes;
+			i--;
+		}
+	}
+	return [ret, attr];
+};
+
 Graficador.prototype.makeStringLine = function(arr) {
 	var string = '';
 	for (var i=0; i < arr.length; i++) {
