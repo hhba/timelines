@@ -125,6 +125,7 @@ Graficador.prototype.defaultText = {
 Graficador.prototype.defaultLine = {};
 
 Graficador.prototype.loadData = function (data) {
+	this.paper.clear();
 	for (var i=0; i< data.length; i++) {
 		this.writeText(data[i]);
 		var linesAndData = this.joinLine(data[i].segments);
@@ -186,10 +187,10 @@ Graficador.prototype.writeText = function(tHash) {
 			tHash.name
 		),
 		opts = {};
-		for (key in this.defaultText)
-			opts[key] = this.defaultText[key];
+	for (key in this.defaultText)
+		opts[key] = this.defaultText[key];
 	for (key in (tHash.attributes || {} )){
-		if (['fill', 'fill-opacity', 'font', 'font-family', 'font-size', 'font-weight', 'stroke', 'text-anchor'].indexOf(key))
+		if (['fill', 'fill-opacity', 'font', 'font-family', 'font-size', 'font-weight', 'stroke', 'text-anchor'].indexOf(key) > -1)
 			opts[key] = tHash.attributes[key];
 	}
 	thisText.attr(opts);
