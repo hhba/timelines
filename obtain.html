@@ -1,0 +1,44 @@
+<html><title>Hackaton Buenos Aires</title>
+<head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+</head>
+
+<script language="javascript">
+
+callTheJsonp("https://spreadsheets.google.com/feeds/cells/0Av8QEY2w-qTYdE1EX0R3a04zaEVwY0ltVU1oSkxKSWc/od5/public/basic?alt=json&callback=parseRequest");
+
+function callTheJsonp(url) {
+	// Crear el elemenot script
+	var script = document.createElement('script');
+	// set the src attribute to that url
+	script.setAttribute('src', url);
+	// insert the script in out page
+	document.getElementsByTagName('head')[0].appendChild(script);
+}
+
+// Esta funcion parsea el objeto devuelto por google docs
+function parseRequest(root) {
+	try {
+		var feed = root.feed;
+		var entries = feed.entry || [];
+		for (var i = 0; i < entries.length; ++i) {
+			var entry = entries[i];
+			var title = entry.title.$t;
+		//	console.log(translate(entry.content.$t));
+			var start = (entry['gd$when']) ? entry['gd$when'][0].startTime : "";
+		}
+console.log(feed);
+	}
+	catch(una_exception) { alert(una_exception); }
+}
+
+function translate(pre_json) {
+	// aca regular expressions
+	return(pre_json);
+}
+</script>
+<body>
+<br />
+<br />
+</body>
+</html>
