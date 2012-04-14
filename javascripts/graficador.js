@@ -114,6 +114,7 @@ function testValues() {
 var Graficador = function(div, config) {
 	this.divId = div;
 	this.config = config || {};
+	$(this.divId).empty();
 	this.paper = new Raphael(this.divId,  this.config.width, this.config.height);
 };
 
@@ -144,9 +145,6 @@ Graficador.prototype.loadData = function (data) {
 	}
 };
 
-Graficador.prototype.makeRoundStringLine = function(arr) {
-	var string = '';
-}
 Graficador.prototype.joinLine = function(segments) {
 	var ret = [], 
 		line = 0,
@@ -165,6 +163,10 @@ Graficador.prototype.joinLine = function(segments) {
 		}
 	}
 	return [ret, attr];
+};
+
+Graficador.prototype.makeRoundStringLine = function(arr) {
+	var string = '';
 };
 
 Graficador.prototype.makeStringLine = function(arr) {
