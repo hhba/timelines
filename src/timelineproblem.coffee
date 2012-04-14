@@ -23,22 +23,28 @@ class TimeLineProblem extends ProblemInstance
       @numCharacters++
    
     # contar grupos
+    @groupPosition = {}
     @numGroups = 0
     for k, v of @problem.groups
       @numGroups++
+
+    delta = 100.0 / @numGroups
+    i = 0
+    for k, v of @problem.groups
+      @groupPosition[k] = delta * i
+      i++
   
     @solution = new Array(@numCharacters)
 
     for i in [0 .. @numCharacters]
       @solution[i] = []
 
-    @groupPosition = new Array(@numGroups)
-    delta = 100.0 / @numGroups;
-    for i in [0 .. @numGroups]
-      @groupPosition[i] = delta * i
+    #@groupPosition = new Array(@numGroups)
+    #for i in [ 0 .. @numGroups]
+    #  @groupPosition[i] = delta * i
 
     # Create array to save current solution
-    @prevSolution = new Array(@numCharacters)
+    #@prevSolution = new Array(@numCharacters)
 
   energy: ->
 

@@ -26,22 +26,25 @@
         v = _ref[k];
         this.numCharacters++;
       }
+      this.groupPosition = {};
       this.numGroups = 0;
       _ref2 = this.problem.groups;
       for (k in _ref2) {
         v = _ref2[k];
         this.numGroups++;
       }
+      delta = 100.0 / this.numGroups;
+      i = 0;
+      _ref3 = this.problem.groups;
+      for (k in _ref3) {
+        v = _ref3[k];
+        this.groupPosition[k] = delta * i;
+        i++;
+      }
       this.solution = new Array(this.numCharacters);
-      for (i = 0, _ref3 = this.numCharacters; 0 <= _ref3 ? i <= _ref3 : i >= _ref3; 0 <= _ref3 ? i++ : i--) {
+      for (i = 0, _ref4 = this.numCharacters; 0 <= _ref4 ? i <= _ref4 : i >= _ref4; 0 <= _ref4 ? i++ : i--) {
         this.solution[i] = [];
       }
-      this.groupPosition = new Array(this.numGroups);
-      delta = 100.0 / this.numGroups;
-      for (i = 0, _ref4 = this.numGroups; 0 <= _ref4 ? i <= _ref4 : i >= _ref4; 0 <= _ref4 ? i++ : i--) {
-        this.groupPosition[i] = delta * i;
-      }
-      this.prevSolution = new Array(this.numCharacters);
     }
     TimeLineProblem.prototype.energy = function() {
       var charData, cost, i, j, numSegments, segment, segments, _ref;
