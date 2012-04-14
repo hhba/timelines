@@ -63,12 +63,15 @@ function mergeSegments(events, places_position){
 }
 function colorFromName(texto) {
         var valor = 0;
+	var colores = Array(3);
         for(x=0;x<texto.length;x++){
                 var chr = texto.charAt(x);
                 var sumar = chr.charCodeAt(chr);
                 sumar = (sumar/255);
                 valor = valor + sumar;
+		colores[x-1] = ((valor/texto.length)*255);
         }
-        valor = (valor/texto.length);
-        return(valor);
+	var colorcito = (Math.round(colores[2]) + "," + Math.round(colores[3]) + "," + Math.round(colores[1]));
+	return("rgb(" + colorcito + ")");
 }
+
