@@ -1,11 +1,14 @@
 function preprocessData(data) {
+  var groups = {};
+  var characters = {};
+
 	data.sort(function (a,b) {
-		return (a.order - b.order);
+		return (parseInt(a.order) - parseInt(b.order));
 	});
 
-	var minOrder = data[0].order;
+	var minOrder = parseInt(data[0].order);
 	console.log(data);
-	var maxOrder = data[data.length-1].order;
+	var maxOrder = parseInt(data[data.length-1].order);
 	var universeLength = maxOrder - minOrder;
 	var universeBox = universeLength/100;
 
@@ -19,7 +22,7 @@ function preprocessData(data) {
 			eventList[data[d].character].position = [];
 		}
 		eventList[data[d].character].position.push({
-			orderBox: (data[d].order - minOrder) / universeBox,
+			orderBox: (parseInt(data[d].order) - minOrder) / universeBox,
 			group: data[d].group
 		});
 
