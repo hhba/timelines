@@ -122,19 +122,46 @@
         get_data(document.getElementById('url').value, function(data){
                 var preprocessed_data = preprocessData(data);
                 console.log(preprocessed_data);
-                var p = new TimeLineProblem(preprocessed_data); 
+                var params = {
+                      maxE: -1000000, 
+                      minE: 1000000, 
+                      initialThreshold: 1,
+                      scaleIterationFactor: 0.9,
+                      maxThresholdIter: 4000, 
+                      maxIter: 2000000,
+                      debug: true
+                };
+
+                var p = new TimeLineProblem(preprocessed_data);
                 var optimizer = new TAOptimizer(p, params); 
-                (function() {
+
+                var redraw = function(o) {
+                    //console.log("Redraw called!");
                   var grafico = new Graficador('graph', {
                     width: 1100,
                     height: 1000,
                     kx: 4,
                     ky: 4
                   });
-                  grafico.loadData(testValues());
-                })();
-        } )
-    })
+                  grafico.loadData(o.solution);
+                }
+
+                  optimizer.callback = redraw
+                  optimizer.start();
+
+                  window.optimizer = optimizer;
+
+                  // loop and see how it changes
+                  var doLoop = function() { 
+                    r = optimizer.step(2000); 
+                    if (r) { 
+                      console.log(optimizer.instance.energy())
+                      window.setTimeout(doLoop, 1) 
+                    } 
+                  };
+                  doLoop();
+            })
+          })
     </script>
 
 

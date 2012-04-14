@@ -24,7 +24,7 @@ function parseRequest(root) {
     var column = title.replace(/[0-9]+/,"")
     var row = parseInt(title.replace(/[A-Z]+/,""))
     if (column == "A"){
-      if (prev){
+      if (prev && prev["order"]){
         ret.push(prev)
       }
       prev = {}
