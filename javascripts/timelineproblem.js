@@ -45,12 +45,11 @@
       this.prevSolution = new Array(this.numCharacters);
     }
     TimeLineProblem.prototype.energy = function() {
-      var c, charData, cost, i, k, numSegments, segment, segments, _len;
+      var charData, cost, i, j, numSegments, segment, segments, _ref;
       charData = mergeSegments(this.problem.eventList, this.groupPosition);
       cost = 0;
-      for (c = 0, _len = charData.length; c < _len; c++) {
-        k = charData[c];
-        segments = c.segments;
+      for (j = 0, _ref = charData.length; 0 <= _ref ? j <= _ref : j >= _ref; 0 <= _ref ? j++ : j--) {
+        segments = charData[j].segments;
         numSegments = segments.length;
         for (i = 0; 0 <= numSegments ? i <= numSegments : i >= numSegments; 0 <= numSegments ? i++ : i--) {
           segment = segments[i];
@@ -63,7 +62,7 @@
       var delta, i, item, j, numOperations, op, prevPos;
       this.prevSolution = (function() {
         var _i, _len, _ref, _results;
-        _ref = this.solution;
+        _ref = this.groupPosition;
         _results = [];
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           item = _ref[_i];

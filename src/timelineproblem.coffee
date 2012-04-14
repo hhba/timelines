@@ -3,6 +3,7 @@ class TimeLineProblem extends ProblemInstance
 
   @solution: []
   @prevSolution: []
+ 
   @numGroups: 0
   @numCharacters: 0
 
@@ -46,8 +47,8 @@ class TimeLineProblem extends ProblemInstance
 
     # calculo la longitud
     cost = 0
-    for k, c in charData
-      segments = c.segments
+    for j in [0 .. charData.length]
+      segments = charData[j].segments
       numSegments = segments.length
       for i in [0 .. numSegments]
         segment = segments[i]
@@ -58,7 +59,7 @@ class TimeLineProblem extends ProblemInstance
   step: ->
 
     # Make a backup
-    @prevSolution = (item for item in @solution)
+    @prevSolution = (item for item in @groupPosition)
 
     # Choose one vertex
     i = Math.round( Math.random() *  @numGroups )
