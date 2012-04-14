@@ -49,13 +49,13 @@
       }
     }
     TimeLineProblem.prototype.energy = function() {
-      var charData, cost, i, j, numSegments, segment, segments, _ref;
+      var charData, cost, i, j, numSegments, segment, segments, _ref, _ref2;
       charData = mergeSegments(this.problem.eventList, this.groupPosition);
       cost = 0;
-      for (j = 0, _ref = charData.length; 0 <= _ref ? j <= _ref : j >= _ref; 0 <= _ref ? j++ : j--) {
+      for (j = 0, _ref = charData.length - 1; 0 <= _ref ? j <= _ref : j >= _ref; 0 <= _ref ? j++ : j--) {
         segments = charData[j].segments;
         numSegments = segments.length;
-        for (i = 0; 0 <= numSegments ? i <= numSegments : i >= numSegments; 0 <= numSegments ? i++ : i--) {
+        for (i = 0, _ref2 = numSegments - 1; 0 <= _ref2 ? i <= _ref2 : i >= _ref2; 0 <= _ref2 ? i++ : i--) {
           segment = segments[i];
           cost += Math.abs(segment.end[1] - segment.start[1]);
         }

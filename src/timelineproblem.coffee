@@ -54,10 +54,10 @@ class TimeLineProblem extends ProblemInstance
 
     # calculo la longitud
     cost = 0
-    for j in [0 .. charData.length]
+    for j in [0 .. charData.length - 1]
       segments = charData[j].segments
       numSegments = segments.length
-      for i in [0 .. numSegments]
+      for i in [0 .. numSegments - 1]
         segment = segments[i]
         cost += Math.abs(segment.end[1] - segment.start[1])
 
