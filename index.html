@@ -147,7 +147,7 @@
                         'margin-left': 50,//px
                         textoffset: 5, // -textoffset px
                         kx: 50,
-                        ky: 50                  
+                        ky: 10                  
         });
                   console.log(o.solution)
                   grafico.loadData(o.solution );
@@ -163,7 +163,7 @@
                     r = optimizer.step(2000); 
                     if (r) { 
                       console.log(optimizer.instance.energy())
-//                      window.setTimeout(doLoop, 1) 
+                      window.setTimeout(doLoop, 1) 
                     } 
                   };
                   doLoop();
