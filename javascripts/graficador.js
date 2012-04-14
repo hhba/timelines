@@ -49,7 +49,13 @@ function testValues() {
 			attributes: { color: 'red'},
 			start: [7,1],
 			end: [10,2]
+		},
+		{
+			attributes: { color: 'red'},
+			start: [10,2],
+			end: [19,4]
 		}
+
 	]
 	};
 	sol[1] = {
@@ -118,10 +124,12 @@ var Graficador = function(div, config) {
 };
 
 Graficador.prototype.defaultText = {
-	'text-anchor': 'end'
+	'text-anchor': 'end',
 };
 
-Graficador.prototype.defaultLine = {};
+Graficador.prototype.defaultLine = {
+    'stroke-width': 3 
+};
 
 Graficador.prototype.loadData = function (data) {
 	for (var i=0; i< data.length; i++) {
@@ -140,13 +148,26 @@ Graficador.prototype.loadData = function (data) {
 			//opts['color'] = data[i].segments[ii].attributes.color;
 			opts['color'] = linesAndData[1][ii].color;
 			thisLine.attr(opts);
+            thisLine.mouseover(this.animateIn);
+            thisLine.mouseout(this.animateOut);
 		}
 	}
+};
+
+
+Graficador.prototype.animateIn = function() {
+    this.defaultStroke = this.attr('stroke-width');
+    this.mouseover(this.animate({"stroke-width": this.defaultStroke + 4}, 100));
+};
+
+Graficador.prototype.animateOut = function() {
+    this.animate({"stroke-width": this.defaultStroke}, 100);
 };
 
 Graficador.prototype.makeRoundStringLine = function(arr) {
 	var string = '';
 }
+
 Graficador.prototype.joinLine = function(segments) {
 	var ret = [], 
 		line = 0,
@@ -184,8 +205,8 @@ Graficador.prototype.writeText = function(tHash) {
 			tHash.name
 		),
 		opts = {};
-		for (key in this.defaultText)
-			opts[key] = this.defaultText[key];
+    for (key in this.defaultText)
+        opts[key] = this.defaultText[key];
 	for (key in (tHash.attributes || {} )){
 		if (['fill', 'fill-opacity', 'font', 'font-family', 'font-size', 'font-weight', 'stroke', 'text-anchor'].indexOf(key))
 			opts[key] = tHash.attributes[key];
