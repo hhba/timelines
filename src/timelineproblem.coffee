@@ -21,8 +21,7 @@ class TimeLineProblem extends ProblemInstance
     @numCharacters = 0
     for k, v of @problem.eventList
       @numCharacters++
-    @numCharacters = @problem.eventList
-
+   
     # contar grupos
     @numGroups = 0
     for k, v of @problem.groups

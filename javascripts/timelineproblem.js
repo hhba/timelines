@@ -26,7 +26,6 @@
         v = _ref[k];
         this.numCharacters++;
       }
-      this.numCharacters = this.problem.eventList;
       this.numGroups = 0;
       _ref2 = this.problem.groups;
       for (k in _ref2) {
