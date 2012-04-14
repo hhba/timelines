@@ -24,13 +24,17 @@ var groups = {};
 var characters = {};
 
 data = [
-	{order: 10, character: "gandalf", group: "ba"}
-,	{order: 20, character: "frodo", group: "b2"}
-,	{order: 1090, character: "gandalf", group: "bd"}
-,	{order: 110, character: "merry", group: "ba"}
-,	{order: 1230, character: "merry", group: "db"}
-,	{order: 1440, character: "frodo", group: "b"}
-,	{order: 120, character: "gandalf", group: "b"}
+	{order: 0, character: "gandalf", group: "mordor"}
+,	{order: 0, character: "frodo", group: "shire"}
+,	{order: 0, character: "merry", group: "shire"}
+,	{order: 1, character: "gandalf", group: "mordor"}
+,	{order: 2, character: "frodo", group: "isengard"}
+,	{order: 2, character: "merry", group: "isengard"}
+,	{order: 3, character: "frodo", group: "shire"}
+,	{order: 3, character: "merry", group: "shire"}
+,	{order: 4, character: "gandalf", group: "isengard"}
+,	{order: 4, character: "frodo", group: "isengard"}
+,	{order: 4, character: "merry", group: "mordor"}
 
 ]
 
@@ -38,10 +42,11 @@ console.log(preprocessData(data));
 
 function preprocessData(data) {
 	data.sort(function (a,b) {
-		return (a.order > b.order);
+		return (a.order - b.order);
 	});
 
 	var minOrder = data[0].order;
+	console.log(data);
 	var maxOrder = data[data.length-1].order;
 	var universeLength = maxOrder - minOrder;
 	var universeBox = universeLength/100;
