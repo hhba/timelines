@@ -72,7 +72,7 @@
 <div class="clearfix">
     <label>url del gdoc (spreadsheet please)</label>
     <div class="input">
-        <input type="text" class="input-xxlarge" name="url" id='url' value='https://spreadsheets.google.com/feeds/cells/0Aj6IH4grpvxcdGpBNHBrelNJS0NhNjBDblFlbkVrWkE/od6/public/basic?alt=json-in-script&callback=parseRequest' />
+        <input type="text" class="input-xxlarge" name="url" id='url' value='https://spreadsheets.google.com/feeds/cells/0Av8QEY2w-qTYdE1EX0R3a04zaEVwY0ltVU1oSkxKSWc/od5/public/basic?alt=json-in-script&callback=parseRequest' />
     </div>
 </div>
   <p>
@@ -81,7 +81,7 @@
     </a>
   </p>
 </div>
-<div id='graph' style='width:1000px; height:1000px;'></div>
+<div id='graph' style='width:1000px; height:500px;'></div>
 
 </form>
 
@@ -122,7 +122,6 @@
     $("#btn").click(function(){
         get_data(document.getElementById('url').value, function(data){
                 var preprocessed_data = preprocessData(data);
-                console.log(preprocessed_data);
                 var params = {
                       maxE: -1000000, 
                       minE: 1000000, 
@@ -136,21 +135,22 @@
                 var p = new TimeLineProblem(preprocessed_data);
                 var optimizer = new TAOptimizer(p, params); 
 
-                var redraw = function(o) {
-                  console.log("Redraw called!");
-                  var grafico = new Graficador('graph', {
+                var grafico = new Graficador('graph', {
                         width: 1100,//px
-                        height: 1000,//px
+                        height: 400,//px
                         'margin-top': 50,//px
                         'margin-right': 50,//px
                         'margin-bottom': 50,//px
                         'margin-left': 50,//px
                         textoffset: 5, // -textoffset px
-                        kx: 50,
-                        ky: 10                  
+                        kx: 10,
+                        ky: 5                  
         });
-                  console.log(o.solution)
-                  grafico.loadData(o.solution );
+
+                var redraw = function(o) {
+                  console.log("Redraw called!");
+                  console.log(o.solution);
+                  grafico.loadData(o.solution, o.instance.groupPosition);
                 }
 
                   optimizer.callback = redraw
@@ -160,13 +160,14 @@
 
                   // loop and see how it changes
                   var doLoop = function() { 
-                    r = optimizer.step(2000); 
+                    r = optimizer.step(20); 
                     if (r) { 
                       console.log(optimizer.instance.energy())
-                      window.setTimeout(doLoop, 1) 
+                      window.setTimeout(doLoop, 100) 
                     } 
                   };
                   doLoop();
+
             })
           })
     </script>
