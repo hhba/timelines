@@ -167,7 +167,25 @@ Graficador.prototype.joinLine = function(segments) {
 };
 
 Graficador.prototype.makeRoundStringLine = function(arr) {
+	function midPoint(Ax, Ay, Bx, By) {
+		var Zx = (Ax-Bx)/2 + Bx;
+		var Zy = (Ay-By)/2 + By;
+		return [Zx, Zy];
+	}
 	var string = '';
+	for (var i=0; i < arr.length; i++) {
+		string += (i == 0)? 'M' : 'L';
+
+		Z = midPoint(point[X], point[Y], next[X], next[Y]);
+		path_string += " "+Z[X]+","+Z[Y];
+		path_string += "Q"+next[X]+","+next[Y];
+
+		string += (arr[i][0]*this.config.kx+this.config['margin-left'])+','+(arr[i][1]*this.config.ky+this.config['margin-top']);
+
+
+
+
+	}
 };
 
 Graficador.prototype.makeStringLine = function(arr) {
