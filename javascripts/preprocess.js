@@ -15,7 +15,7 @@ function preprocessData(data) {
 	var eventList = {};
 	for (d in data) {
 		if (!eventList[data[d].character]) {
-			eventList[data[d].character] = [];
+			eventList[data[d].character] = {};
 		}
 		eventList[data[d].character].name = data[d].character;
 		if (!eventList[data[d].character].position) {
@@ -49,13 +49,14 @@ function mergeSegments(events, places_position){
             pos_y = places_position[positions[position]['group']];
             pos_x = positions[position]['orderBox'];
             var current = [pos_x, pos_y]
-            character_time['segments'].push({'start': current});
+            character_time['segments'].push({'start': current, "attributes":{"color": "#bbffbb"}});
             if(prev != null) {
-                positions[position - 1]['end'] = current;
+                character_time['segments'][character_time['segments'].length - 2]['end'] = current;
             }
             prev = current;
         }
         character_time['name'] = character['name'];
+        character_time['segments'].pop();
         result.push(character_time);
     }
     return result;

@@ -120,6 +120,7 @@ function testValues() {
 var Graficador = function(div, config) {
 	this.divId = div;
 	this.config = config || {};
+	$(this.divId).empty();
 	this.paper = new Raphael(this.divId,  this.config.width, this.config.height);
 };
 
@@ -132,6 +133,7 @@ Graficador.prototype.defaultLine = {
 };
 
 Graficador.prototype.loadData = function (data) {
+	this.paper.clear();
 	for (var i=0; i< data.length; i++) {
 		this.writeText(data[i]);
 		var linesAndData = this.joinLine(data[i].segments);
@@ -188,6 +190,28 @@ Graficador.prototype.joinLine = function(segments) {
 	return [ret, attr];
 };
 
+Graficador.prototype.makeRoundStringLine = function(arr) {
+	function midPoint(Ax, Ay, Bx, By) {
+		var Zx = (Ax-Bx)/2 + Bx;
+		var Zy = (Ay-By)/2 + By;
+		return [Zx, Zy];
+	}
+	var string = '';
+	for (var i=0; i < arr.length; i++) {
+		string += (i == 0)? 'M' : 'L';
+
+		Z = midPoint(point[X], point[Y], next[X], next[Y]);
+		path_string += " "+Z[X]+","+Z[Y];
+		path_string += "Q"+next[X]+","+next[Y];
+
+		string += (arr[i][0]*this.config.kx+this.config['margin-left'])+','+(arr[i][1]*this.config.ky+this.config['margin-top']);
+
+
+
+
+	}
+};
+
 Graficador.prototype.makeStringLine = function(arr) {
 	var string = '';
 	for (var i=0; i < arr.length; i++) {
@@ -205,10 +229,10 @@ Graficador.prototype.writeText = function(tHash) {
 			tHash.name
 		),
 		opts = {};
-    for (key in this.defaultText)
-        opts[key] = this.defaultText[key];
+	for (key in this.defaultText)
+		opts[key] = this.defaultText[key];
 	for (key in (tHash.attributes || {} )){
-		if (['fill', 'fill-opacity', 'font', 'font-family', 'font-size', 'font-weight', 'stroke', 'text-anchor'].indexOf(key))
+		if (['fill', 'fill-opacity', 'font', 'font-family', 'font-size', 'font-weight', 'stroke', 'text-anchor'].indexOf(key) > -1)
 			opts[key] = tHash.attributes[key];
 	}
 	thisText.attr(opts);

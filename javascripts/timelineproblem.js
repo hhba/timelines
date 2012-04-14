@@ -82,16 +82,11 @@
       delta = (Math.random() - 0.5) * (0.2 * 100.0 / this.numGroups);
       numOperations = 2;
       op = Math.round(Math.random() * numOperations);
-      if (op === 0) {
-        from = this.groupNames[i];
-        to = this.groupNames[j];
-        prevPos = this.groupPosition[to];
-        this.groupPosition[to] = this.groupPosition[from];
-        this.groupPosition[from] = prevPos;
-      } else if (op === 1) {
-        from = this.groupNames[i];
-        this.groupPosition[from] += delta;
-      }
+      from = this.groupNames[i];
+      to = this.groupNames[j];
+      prevPos = this.groupPosition[to];
+      this.groupPosition[to] = this.groupPosition[from];
+      this.groupPosition[from] = prevPos;
       this.solution = mergeSegments(this.problem.eventList, this.groupPosition);
       return this.solution;
     };
