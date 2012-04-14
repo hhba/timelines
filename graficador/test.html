@@ -1,8 +1,8 @@
 <html>
 <head>
 	<script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
-	<script src="js/raphael-min.js"></script>
-	<script src="js/graficador.js"></script>
+	<script src="../javascripts/raphael-min.js"></script>
+	<script src="../javascripts/graficador.js"></script>
 	<title>Lindo Graficador =)</title>
 </head>
 <body>
@@ -11,12 +11,16 @@
 	<script>
 		(function() {
 			var grafico = new Graficador('graph', {
-				width: 1100,
-				height: 1000,
-				kx: 4,
-				ky: 4
+				width: 1100,//px
+				height: 1000,//px
+				'margin-top': 50,//px
+				'margin-right': 50,//px
+				'margin-bottom': 50,//px
+				'margin-left': 50,//px
+				textoffset: 5, // -textoffset px
+				kx: 50,
+				ky: 50
 			});
-			
 			grafico.loadData(testValues());
 		})();
 	</script>
