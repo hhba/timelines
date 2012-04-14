@@ -31,7 +31,7 @@ class TimeLineProblem extends ProblemInstance
 
     delta = 100.0 / @numGroups
     i = 0
-    @groupNames = new Array(numGroups);
+    @groupNames = new Array(@numGroups);
     for k, v of @problem.groups
       @groupNames[i] = k
       @groupPosition[k] = delta * i
