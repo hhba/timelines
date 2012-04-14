@@ -72,7 +72,7 @@
 <div class="clearfix">
     <label>url del gdoc (spreadsheet please)</label>
     <div class="input">
-        <input type="text" class="input-xxlarge" name="url" id='url' value='https://spreadsheets.google.com/feeds/cells/0Av8QEY2w-qTYdE1EX0R3a04zaEVwY0ltVU1oSkxKSWc/od5/public/basic?alt=json-in-script&callback=parseRequest' />
+        <input type="text" class="input-xxlarge" name="url" id='url' value='https://spreadsheets.google.com/feeds/cells/0Aj6IH4grpvxcdGpBNHBrelNJS0NhNjBDblFlbkVrWkE/od6/public/basic?alt=json-in-script&callback=parseRequest' />
     </div>
 </div>
   <p>
@@ -81,7 +81,7 @@
     </a>
   </p>
 </div>
-<div id='graph'></div>
+<div id='graph' style='width:1000px; height:1000px;'></div>
 
 </form>
 
@@ -137,14 +137,20 @@
                 var optimizer = new TAOptimizer(p, params); 
 
                 var redraw = function(o) {
-                    //console.log("Redraw called!");
+                  console.log("Redraw called!");
                   var grafico = new Graficador('graph', {
-                    width: 1100,
-                    height: 1000,
-                    kx: 4,
-                    ky: 4
-                  });
-                  grafico.loadData(o.solution);
+                        width: 1100,//px
+                        height: 1000,//px
+                        'margin-top': 50,//px
+                        'margin-right': 50,//px
+                        'margin-bottom': 50,//px
+                        'margin-left': 50,//px
+                        textoffset: 5, // -textoffset px
+                        kx: 50,
+                        ky: 10                  
+        });
+                  console.log(o.solution)
+                  grafico.loadData(o.solution );
                 }
 
                   optimizer.callback = redraw
