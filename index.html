@@ -81,7 +81,7 @@
     </a>
   </p>
 </div>
-<div id='graph' style='width:1000px; height:500px;'></div>
+<div id='graph' style='width:1000px; height:800px;'></div>
 
 </form>
 
@@ -127,7 +127,7 @@
                       minE: 1000000, 
                       initialThreshold: 1,
                       scaleIterationFactor: 0.9,
-                      maxThresholdIter: 4000, 
+                      maxThresholdIter: 100, 
                       maxIter: 2000000,
                       debug: true
                 };
@@ -137,7 +137,7 @@
 
                 var grafico = new Graficador('graph', {
                         width: 1100,//px
-                        height: 400,//px
+                        height: 800,//px
                         'margin-top': 50,//px
                         'margin-right': 50,//px
                         'margin-bottom': 50,//px
@@ -160,10 +160,10 @@
 
                   // loop and see how it changes
                   var doLoop = function() { 
-                    r = optimizer.step(20); 
+                    r = optimizer.step(100); 
                     if (r) { 
                       console.log(optimizer.instance.energy())
-                      window.setTimeout(doLoop, 100) 
+                      window.setTimeout(doLoop, 1) 
                     } 
                   };
                   doLoop();
