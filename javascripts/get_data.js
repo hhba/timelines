@@ -13,7 +13,7 @@ function get_data(url,cb) {
 // Esta funcion parsea el objeto devuelto por google docs
 function parseRequest(root) {
   var ret =[]
-  var prev = {}
+  var prev = false 
   var keys = {} 
   var feed = root.feed;
   var entries = feed.entry || [];
@@ -24,7 +24,9 @@ function parseRequest(root) {
     var column = title.replace(/[0-9]+/,"")
     var row = parseInt(title.replace(/[A-Z]+/,""))
     if (column == "A"){
-      ret.push(prev)
+      if (prev){
+        ret.push(prev)
+      }
       prev = {}
     }
     if (row == 1){
