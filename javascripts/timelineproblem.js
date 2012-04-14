@@ -36,7 +36,7 @@
       }
       delta = 100.0 / this.numGroups;
       i = 0;
-      this.groupNames = new Array(numGroups);
+      this.groupNames = new Array(this.numGroups);
       _ref3 = this.problem.groups;
       for (k in _ref3) {
         v = _ref3[k];
