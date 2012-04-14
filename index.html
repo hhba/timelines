@@ -23,6 +23,16 @@
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
+
+  <script language="JavaScript">
+    <!--
+    function setText(){
+      document.myForm.myText.value = document.myForm.myText.value.toUpperCase();
+      alert("creando el timeline ..."+document.myForm.myText.value);
+    }
+    -->
+    </script>
+
   </head>
 
   <body data-spy="scroll" data-target=".subnav" data-offset="50">
@@ -45,7 +55,7 @@
                 <a href="./index.html">Inicio</a>
               </li>
               <li class="">
-                <a href="./scaffolding.html">Hack/Hackers</a>
+                <a href="./index.html">Hack/Hackers</a>
               </li>
               <li class="divider-vertical"></li>
             </ul>
@@ -56,21 +66,20 @@
 
     <div class="container">
 
-<form>
+<form  name="myForm">
 
 
 <div class="hero-unit">
   <h1>Visualiza tu timeline aca</h1>
-  <p>se aceptan patacones</p>
+  <p>sorprendete con el resultado!</p>
 <div class="clearfix">
     <label>url del gdoc (spreadsheet please)</label>
     <div class="input">
-        <input type="text" />
+        <input type="text"  name="myText" />
     </div>
 </div>
-
   <p>
-    <a class="btn btn-primary btn-large">
+    <a class="btn btn-primary btn-large"  onClick="setText()">
       Crear visualizacion
     </a>
   </p>
