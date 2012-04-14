@@ -17,6 +17,7 @@
     TimeLineProblem.characterPosition = {};
     TimeLineProblem.problem = [];
     TimeLineProblem.groupPosition = [];
+    TimeLineProblem.groupNames = [];
     function TimeLineProblem(problem) {
       var delta, i, k, v, _ref, _ref2, _ref3, _ref4;
       this.problem = problem;
@@ -38,6 +39,7 @@
       _ref3 = this.problem.groups;
       for (k in _ref3) {
         v = _ref3[k];
+        this.groupNames[i] = k;
         this.groupPosition[k] = delta * i;
         i++;
       }
@@ -47,13 +49,13 @@
       }
     }
     TimeLineProblem.prototype.energy = function() {
-      var charData, cost, i, j, numSegments, segment, segments, _ref;
+      var charData, cost, i, j, numSegments, segment, segments, _ref, _ref2;
       charData = mergeSegments(this.problem.eventList, this.groupPosition);
       cost = 0;
-      for (j = 0, _ref = charData.length; 0 <= _ref ? j <= _ref : j >= _ref; 0 <= _ref ? j++ : j--) {
+      for (j = 0, _ref = charData.length - 1; 0 <= _ref ? j <= _ref : j >= _ref; 0 <= _ref ? j++ : j--) {
         segments = charData[j].segments;
         numSegments = segments.length;
-        for (i = 0; 0 <= numSegments ? i <= numSegments : i >= numSegments; 0 <= numSegments ? i++ : i--) {
+        for (i = 0, _ref2 = numSegments - 1; 0 <= _ref2 ? i <= _ref2 : i >= _ref2; 0 <= _ref2 ? i++ : i--) {
           segment = segments[i];
           cost += Math.abs(segment.end[1] - segment.start[1]);
         }
@@ -61,17 +63,13 @@
       return cost;
     };
     TimeLineProblem.prototype.step = function() {
-      var delta, i, item, j, numOperations, op, prevPos;
-      this.prevSolution = (function() {
-        var _i, _len, _ref, _results;
-        _ref = this.groupPosition;
-        _results = [];
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          item = _ref[_i];
-          _results.push(item);
-        }
-        return _results;
-      }).call(this);
+      var delta, from, i, j, k, numOperations, op, prevPos, to, v, _ref;
+      this.prevGroupPosition = {};
+      _ref = this.problem.groups;
+      for (k in _ref) {
+        v = _ref[k];
+        this.prevGroupPosition[k] = this.groupPosition[k];
+      }
       i = Math.round(Math.random() * this.numGroups);
       if (i > this.numGroups) {
         i = this.numGroups - 1;
@@ -84,26 +82,28 @@
       numOperations = 2;
       op = Math.round(Math.random() * numOperations);
       if (op === 0) {
-        prevPos = this.groupPosition[i];
-        this.groupPosition[i] = this.groupPosition[j];
-        this.groupPosition[j] = prevPos;
+        from = this.groupNames[i];
+        to = this.groupNames[j];
+        prevPos = this.groupPosition[to];
+        this.groupPosition[to] = this.groupPosition[from];
+        this.groupPosition[from] = prevPos;
       } else if (op === 1) {
-        this.groupPosition[i] += delta;
+        from = this.groupNames[i];
+        this.groupPosition[from] += delta;
       }
+      this.solution = mergeSegments(this.problem.eventList, this.groupPosition);
       return this.solution;
     };
     TimeLineProblem.prototype.discard = function() {
-      var item;
-      return this.solution = (function() {
-        var _i, _len, _ref, _results;
-        _ref = this.prevSolution;
-        _results = [];
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          item = _ref[_i];
-          _results.push(item);
-        }
-        return _results;
-      }).call(this);
+      var k, v, _ref, _results;
+      this.groupPosition = {};
+      _ref = this.problem.groups;
+      _results = [];
+      for (k in _ref) {
+        v = _ref[k];
+        _results.push(this.groupPosition[k] = this.prevGroupPosition[k]);
+      }
+      return _results;
     };
     return TimeLineProblem;
   })();

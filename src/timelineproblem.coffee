@@ -14,6 +14,7 @@ class TimeLineProblem extends ProblemInstance
  
   # Hash con las posiciones de cada 
   @groupPosition: []
+  @groupNames: []
 
   constructor: (@problem) ->
 
@@ -31,6 +32,7 @@ class TimeLineProblem extends ProblemInstance
     delta = 100.0 / @numGroups
     i = 0
     for k, v of @problem.groups
+      @groupNames[i] = k
       @groupPosition[k] = delta * i
       i++
   
@@ -52,10 +54,10 @@ class TimeLineProblem extends ProblemInstance
 
     # calculo la longitud
     cost = 0
-    for j in [0 .. charData.length]
+    for j in [0 .. charData.length - 1]
       segments = charData[j].segments
       numSegments = segments.length
-      for i in [0 .. numSegments]
+      for i in [0 .. numSegments - 1]
         segment = segments[i]
         cost += Math.abs(segment.end[1] - segment.start[1])
 
@@ -64,7 +66,9 @@ class TimeLineProblem extends ProblemInstance
   step: ->
 
     # Make a backup
-    @prevSolution = (item for item in @groupPosition)
+    @prevGroupPosition = {}
+    for k, v of @problem.groups
+      @prevGroupPosition[k] = @groupPosition[k]
 
     # Choose one vertex
     i = Math.round( Math.random() *  @numGroups )
@@ -81,17 +85,23 @@ class TimeLineProblem extends ProblemInstance
     numOperations = 2
     op = Math.round( Math.random() * numOperations )
     if op == 0
-      prevPos = @groupPosition[i]
-      @groupPosition[i] = @groupPosition[j]
-      @groupPosition[j] = prevPos
+      from = @groupNames[i]
+      to   = @groupNames[j]
+      prevPos = @groupPosition[to]
+      @groupPosition[to] = @groupPosition[from]
+      @groupPosition[from] = prevPos
     else if op == 1
-      @groupPosition[i] += delta
+      from = @groupNames[i]
+      @groupPosition[from] += delta
     
+    @solution = mergeSegments(@problem.eventList, @groupPosition)
     return @solution
 
   discard: ->
     # restore previous solution
-    @solution = (item for item in @prevSolution)
+    @groupPosition = {}
+    for k, v of @problem.groups
+      @groupPosition[k] = @prevGroupPosition[k]
 
 window.TimeLineProblem = TimeLineProblem
 
