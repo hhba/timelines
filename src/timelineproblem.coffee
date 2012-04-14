@@ -85,15 +85,21 @@ class TimeLineProblem extends ProblemInstance
     # Determine what to do
     numOperations = 2
     op = Math.round( Math.random() * numOperations )
-    if op == 0
-      from = @groupNames[i]
-      to   = @groupNames[j]
-      prevPos = @groupPosition[to]
-      @groupPosition[to] = @groupPosition[from]
-      @groupPosition[from] = prevPos
-    else if op == 1
-      from = @groupNames[i]
-      @groupPosition[from] += delta
+    from = @groupNames[i]
+    to   = @groupNames[j]
+    prevPos = @groupPosition[to]
+    @groupPosition[to] = @groupPosition[from]
+    @groupPosition[from] = prevPos
+    
+    #if op == 0
+    #  from = @groupNames[i]
+    #  to   = @groupNames[j]
+    #  prevPos = @groupPosition[to]
+    #  @groupPosition[to] = @groupPosition[from]
+    # @groupPosition[from] = prevPos
+    #else if op == 1
+    #  from = @groupNames[i]
+    #  @groupPosition[from] += delta
     
     @solution = mergeSegments(@problem.eventList, @groupPosition)
     return @solution
