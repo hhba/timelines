@@ -49,7 +49,13 @@ function testValues() {
 			attributes: { color: 'red'},
 			start: [7,1],
 			end: [10,2]
+		},
+		{
+			attributes: { color: 'red'},
+			start: [10,2],
+			end: [19,4]
 		}
+
 	]
 	};
 	sol[1] = {
@@ -119,10 +125,12 @@ var Graficador = function(div, config) {
 };
 
 Graficador.prototype.defaultText = {
-	'text-anchor': 'end'
+	'text-anchor': 'end',
 };
 
-Graficador.prototype.defaultLine = {};
+Graficador.prototype.defaultLine = {
+    'stroke-width': 3 
+};
 
 Graficador.prototype.loadData = function (data, labels) {
 	this.paper.clear();
@@ -145,9 +153,25 @@ Graficador.prototype.loadData = function (data, labels) {
 			//opts['color'] = data[i].segments[ii].attributes.color;
 			opts['color'] = linesAndData[1][ii].color;
 			thisLine.attr(opts);
+            thisLine.mouseover(this.animateIn);
+            thisLine.mouseout(this.animateOut);
 		}
 	}
 };
+
+
+Graficador.prototype.animateIn = function() {
+    this.defaultStroke = this.attr('stroke-width');
+    this.mouseover(this.animate({"stroke-width": this.defaultStroke + 4}, 100));
+};
+
+Graficador.prototype.animateOut = function() {
+    this.animate({"stroke-width": this.defaultStroke}, 100);
+};
+
+Graficador.prototype.makeRoundStringLine = function(arr) {
+	var string = '';
+}
 
 Graficador.prototype.joinLine = function(segments) {
 	var ret = [], 
@@ -170,7 +194,25 @@ Graficador.prototype.joinLine = function(segments) {
 };
 
 Graficador.prototype.makeRoundStringLine = function(arr) {
+	function midPoint(Ax, Ay, Bx, By) {
+		var Zx = (Ax-Bx)/2 + Bx;
+		var Zy = (Ay-By)/2 + By;
+		return [Zx, Zy];
+	}
 	var string = '';
+	for (var i=0; i < arr.length; i++) {
+		string += (i == 0)? 'M' : 'L';
+
+		Z = midPoint(point[X], point[Y], next[X], next[Y]);
+		path_string += " "+Z[X]+","+Z[Y];
+		path_string += "Q"+next[X]+","+next[Y];
+
+		string += (arr[i][0]*this.config.kx+this.config['margin-left'])+','+(arr[i][1]*this.config.ky+this.config['margin-top']);
+
+
+
+
+	}
 };
 
 Graficador.prototype.makeStringLine = function(arr) {
