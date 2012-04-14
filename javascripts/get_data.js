@@ -28,7 +28,7 @@ function parseRequest(root) {
       prev = {}
     }
     if (row == 1){
-      keys[column]=content
+      keys[column]=content.toLowerCase()
     }else{
       prev[keys[column]] = content
     }
