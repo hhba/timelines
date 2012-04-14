@@ -41,41 +41,43 @@ class TimeLineProblem extends ProblemInstance
     @prevSolution = new Array(@numCharacters)
 
   energy: ->
+
     charData = mergeSegments(@problem.eventList, @groupPosition)
 
     # calculo la longitud
     cost = 0
-    for charNum in [0 .. charData]
-      c = charData[charNum]
-      numSegments = c.length
+    for k, c in charData
+      segments = c.segments
+      numSegments = segments.length
       for i in [0 .. numSegments]
-        segment = c[i]
+        segment = segments[i]
         cost += Math.abs(segment.end[1] - segment.start[1])
 
     return cost
 
   step: ->
+
     # Make a backup
-    #@prevSolution = (item for item in @solution)
+    @prevSolution = (item for item in @solution)
 
     # Choose one vertex
     i = Math.round( Math.random() *  @numGroups )
-    i = @numGroups - 1 if i >= @numGroups
+    i = @numGroups - 1 if i > @numGroups
 
     # Choose another vertex
     j = Math.round( Math.random() *  @numGroups )
-    j = @numGroups - 1 if j >= @numGroups
+    j = @numGroups - 1 if j > @numGroups
 
     # delta is a randum number between +/- 0.1
     delta = ( Math.random() - 0.5 ) * ( 0.2 * 100.0 / @numGroups )
 
     # Determine what to do
-    numOperations = 3
+    numOperations = 2
     op = Math.round( Math.random() * numOperations )
     if op == 0
       prevPos = @groupPosition[i]
       @groupPosition[i] = @groupPosition[j]
-      @groupPosition[i] = prevPos
+      @groupPosition[j] = prevPos
     else if op == 1
       @groupPosition[i] += delta
     

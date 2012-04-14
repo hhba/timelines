@@ -45,36 +45,47 @@
       this.prevSolution = new Array(this.numCharacters);
     }
     TimeLineProblem.prototype.energy = function() {
-      var c, charData, charNum, cost, i, numSegments, segment;
+      var c, charData, cost, i, k, numSegments, segment, segments, _len;
       charData = mergeSegments(this.problem.eventList, this.groupPosition);
       cost = 0;
-      for (charNum = 0; 0 <= charData ? charNum <= charData : charNum >= charData; 0 <= charData ? charNum++ : charNum--) {
-        c = charData[charNum];
-        numSegments = c.length;
+      for (c = 0, _len = charData.length; c < _len; c++) {
+        k = charData[c];
+        segments = c.segments;
+        numSegments = segments.length;
         for (i = 0; 0 <= numSegments ? i <= numSegments : i >= numSegments; 0 <= numSegments ? i++ : i--) {
-          segment = c[i];
+          segment = segments[i];
           cost += Math.abs(segment.end[1] - segment.start[1]);
         }
       }
       return cost;
     };
     TimeLineProblem.prototype.step = function() {
-      var delta, i, j, numOperations, op, prevPos;
+      var delta, i, item, j, numOperations, op, prevPos;
+      this.prevSolution = (function() {
+        var _i, _len, _ref, _results;
+        _ref = this.solution;
+        _results = [];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          item = _ref[_i];
+          _results.push(item);
+        }
+        return _results;
+      }).call(this);
       i = Math.round(Math.random() * this.numGroups);
-      if (i >= this.numGroups) {
+      if (i > this.numGroups) {
         i = this.numGroups - 1;
       }
       j = Math.round(Math.random() * this.numGroups);
-      if (j >= this.numGroups) {
+      if (j > this.numGroups) {
         j = this.numGroups - 1;
       }
       delta = (Math.random() - 0.5) * (0.2 * 100.0 / this.numGroups);
-      numOperations = 3;
+      numOperations = 2;
       op = Math.round(Math.random() * numOperations);
       if (op === 0) {
         prevPos = this.groupPosition[i];
         this.groupPosition[i] = this.groupPosition[j];
-        this.groupPosition[i] = prevPos;
+        this.groupPosition[j] = prevPos;
       } else if (op === 1) {
         this.groupPosition[i] += delta;
       }
