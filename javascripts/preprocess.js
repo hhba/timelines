@@ -36,7 +36,7 @@ function preprocessData(data) {
 	return {eventList: eventList, groups: groups};
 }
 
-function merge_segments(events, places_position){
+function mergeSegments(events, places_position){
     var result = Array();
     for(event in events){
         var pos_x = 0;
