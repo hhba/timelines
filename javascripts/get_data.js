@@ -1,11 +1,12 @@
 //get_data("https://spreadsheets.google.com/feeds/cells/0Av8QEY2w-qTYdE1EX0R3a04zaEVwY0ltVU1oSkxKSWc/od5/public/basic?alt=json-in-script&callback=parseRequest");
-
-function get_data(url) {
+var callback = false;
+function get_data(url,cb) {
   // Crear el elemenot script
   var script = document.createElement('script');
   // set the src attribute to that url
   script.setAttribute('src', url);
   // insert the script in out page
+  callback = cb
   document.getElementsByTagName('head')[0].appendChild(script);
 }
 
@@ -33,5 +34,5 @@ function parseRequest(root) {
     }
   }
   ret.push(prev)
-  return ret
+  callback(ret)
 }

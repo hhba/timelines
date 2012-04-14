@@ -25,6 +25,9 @@
     <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
     <script src='javascripts/get_data.js' type='text/javascript'></script>
     <script src='javascripts/preprocess.js' type="text/javascript"></script>
+    <script src='JSOptimizer/js/taoptimizer.js' type="text/javascript"></script>
+    <script src='javascripts/timelineproblem.js' type="text/javascript"></script>
+    <script src='javascripts/graficador.js' type="text/javascript"></script>
 
   </head>
 
@@ -72,11 +75,12 @@
     </div>
 </div>
   <p>
-    <a class="btn btn-primary btn-large"  onClick="get_data(document.getElementById('url').value)">
+    <a class="btn btn-primary btn-large" id='btn'>
       Crear visualizacion
     </a>
   </p>
 </div>
+<div id='graph'></div>
 
 </form>
 
@@ -113,6 +117,25 @@
     <script src="assets/js/bootstrap-carousel.js"></script>
     <script src="assets/js/bootstrap-typeahead.js"></script>
     <script src="assets/js/application.js"></script>
+    <script>
+    $("#btn").click(function(){
+        get_data(document.getElementById('url').value, function(data){
+                var preprocessed_data = preprocessData(data);
+                console.log(preprocessed_data);
+                var p = new TimeLineProblem(preprocessed_data); 
+                var optimizer = new TAOptimizer(p, params); 
+                (function() {
+                  var grafico = new Graficador('graph', {
+                    width: 1100,
+                    height: 1000,
+                    kx: 4,
+                    ky: 4
+                  });
+                  grafico.loadData(testValues());
+                })();
+        } )
+    })
+    </script>
 
 
   </body>
