@@ -1,0 +1,24 @@
+<html>
+<head>
+	<script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+	<script src="js/raphael-min.js"></script>
+	<script src="js/graficador.js"></script>
+	<title>Lindo Graficador =)</title>
+</head>
+<body>
+	<h1>Graficador</h1>
+	<div id="graph" style="width: 1000px; 1000px"></div>
+	<script>
+		(function() {
+			var grafico = new Graficador('graph', {
+				width: 1100,
+				height: 1000,
+				kx: 4,
+				ky: 4
+			});
+			
+			grafico.loadData(testValues());
+		})();
+	</script>
+</body>
+</html>
