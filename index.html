@@ -1,85 +1,117 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
   <head>
-    <meta charset='utf-8' />
-    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="Timelines : libreria para generar lineas de tiempo" />
+    <meta charset="utf-8">
+    <title>Visualiza esta</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+    <!-- Le styles -->
+    <link href="assets/css/bootstrap.css" rel="stylesheet">
+    <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="assets/css/docs.css" rel="stylesheet">
+    <link href="assets/js/google-code-prettify/prettify.css" rel="stylesheet">
 
-    <title>Timelines</title>
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="assets/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target=".subnav" data-offset="50">
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/hhba/timelines">Fork Me on GitHub</a>
 
-          <h1 id="project_title">Timelines</h1>
-          <h2 id="project_tagline">libreria para generar lineas de tiempo</h2>
-
-          <section id="downloads">
-            <a class="zip_download_link" href="https://github.com/hhba/timelines/zipball/master">Download this project as a .zip file</a>
-            <a class="tar_download_link" href="https://github.com/hhba/timelines/tarball/master">Download this project as a tar.gz file</a>
-          </section>
-        </header>
+  <!-- Navbar
+    ================================================== -->
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="./index.html">Bootstrap</a>
+          <div class="nav-collapse">
+            <ul class="nav">
+              <li class="active">
+                <a href="./index.html">Inicio</a>
+              </li>
+              <li class="">
+                <a href="./scaffolding.html">Hack/Hackers</a>
+              </li>
+              <li class="divider-vertical"></li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <h1>Timelines</h1>
+    <div class="container">
 
-<p>Aca van a ir una serie de librerias para hacer lineas de tiempo. La primera que queremos hacer es una que genere algo parecido a esto: </p>
+<form>
 
-<p><img src="http://imgs.xkcd.com/comics/movie_narrative_charts.png" alt="Alt text" title="Timeline del Señor de los Anillos"></p>
 
-<p>Para más info ver aca:  <a href="http://xkcd.com/657/">Movie Narrative Charts</a></p>
-
-<hr><h2>Herramientas de desarrollo y librerias</h2>
-
-<p>Una propuesta para el desarrollo utilizaría la siguiente tecnología:</p>
-
-<ul>
-<li>
-<strong>Raphael</strong> - <a href="http://raphaeljs.com/">http://raphaeljs.com/</a></li>
-<li>
-<strong>jQuery</strong> - <a href="http://jquery.com/">http://jquery.com/</a></li>
-<li>
-<strong>Coffeescript</strong> - <a href="http://coffeescript.org/">http://coffeescript.org/</a> | <a href="http://arcturo.github.com/library/coffeescript/index.html">The little book on Coffeescript</a>
-</li>
-</ul><h2>Algunas referencias que pueden interesar y servir:</h2>
-
-<h3>sankey / flow diagrams:</h3>
-
-<ul>
-<li>version JS (Coffeescript) + Raphael: <a href="http://tamc.github.com/Sankey/">http://tamc.github.com/Sankey/</a></li>
-<li>version Python: <a href="http://matplotlib.sourceforge.net/examples/api/sankey_demo_old.html">http://matplotlib.sourceforge.net/examples/api/sankey_demo_old.html</a></li>
-<li>Un poco de teoría: <a href="http://www.svgopen.org/2003/papers/RenderingGraphs/index.html">http://www.svgopen.org/2003/papers/RenderingGraphs/index.html</a></li>
-</ul><h3>Morris una librería para graficar</h3>
-
-<ul>
-<li>Morris.js: para generar gráficos con Raphael + JS: <a href="http://oesmith.github.com/morris.js/">http://oesmith.github.com/morris.js/</a></li>
-</ul><h3>Sitios generales de visualizacion</h3>
-
-<ul>
-<li>Muchísimos links a sitios de visualizacion: <a href="http://dailytekk.com/2012/02/27/over-100-incredible-infographic-tools-and-resources/">http://dailytekk.com/2012/02/27/over-100-incredible-infographic-tools-and-resources/</a></li>
-</ul>
-      </section>
+<div class="hero-unit">
+  <h1>Visualiza tu timeline aca</h1>
+  <p>se aceptan patacones</p>
+<div class="clearfix">
+    <label>url del gdoc (spreadsheet please)</label>
+    <div class="input">
+        <input type="text" />
     </div>
+</div>
 
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">Timelines maintained by <a href="https://github.com/hhba">hhba</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+  <p>
+    <a class="btn btn-primary btn-large">
+      Crear visualizacion
+    </a>
+  </p>
+</div>
+
+</form>
+
+
+     <!-- Footer
+      ================================================== -->
+      <footer class="footer">
+        <p class="pull-right"><a href="#">Back to top</a></p>
+        <p>Designed and built with all the love in the world <a href="http://twitter.com/twitter" target="_blank">@twitter</a> by <a href="http://twitter.com/mdo" target="_blank">@mdo</a> and <a href="http://twitter.com/fat" target="_blank">@fat</a>.</p>
+        <p>Code licensed under the <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache License v2.0</a>. Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.</p>
+        <p>Icons from <a href="http://glyphicons.com">Glyphicons Free</a>, licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.</p>
       </footer>
-    </div>
 
-    
+    </div><!-- /container -->
+
+
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+    <script src="assets/js/jquery.js"></script>
+    <script src="assets/js/google-code-prettify/prettify.js"></script>
+    <script src="assets/js/bootstrap-transition.js"></script>
+    <script src="assets/js/bootstrap-alert.js"></script>
+    <script src="assets/js/bootstrap-modal.js"></script>
+    <script src="assets/js/bootstrap-dropdown.js"></script>
+    <script src="assets/js/bootstrap-scrollspy.js"></script>
+    <script src="assets/js/bootstrap-tab.js"></script>
+    <script src="assets/js/bootstrap-tooltip.js"></script>
+    <script src="assets/js/bootstrap-popover.js"></script>
+    <script src="assets/js/bootstrap-button.js"></script>
+    <script src="assets/js/bootstrap-collapse.js"></script>
+    <script src="assets/js/bootstrap-carousel.js"></script>
+    <script src="assets/js/bootstrap-typeahead.js"></script>
+    <script src="assets/js/application.js"></script>
+
 
   </body>
 </html>
