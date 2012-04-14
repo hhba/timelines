@@ -19,13 +19,13 @@ class TimeLineProblem extends ProblemInstance
 
     # contar personajes
     @numCharacters = 0
-    for k, v in @problem.eventList
+    for k, v of @problem.eventList
       @numCharacters++
     @numCharacters = @problem.eventList
 
     # contar grupos
     @numGroups = 0
-    for k, v in @problem.groups
+    for k, v of @problem.groups
       @numGroups++
   
     @solution = new Array(@numCharacters)

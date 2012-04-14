@@ -18,19 +18,19 @@
     TimeLineProblem.problem = [];
     TimeLineProblem.groupPosition = [];
     function TimeLineProblem(problem) {
-      var delta, i, k, v, _len, _len2, _ref, _ref2, _ref3, _ref4;
+      var delta, i, k, v, _ref, _ref2, _ref3, _ref4;
       this.problem = problem;
       this.numCharacters = 0;
       _ref = this.problem.eventList;
-      for (v = 0, _len = _ref.length; v < _len; v++) {
-        k = _ref[v];
+      for (k in _ref) {
+        v = _ref[k];
         this.numCharacters++;
       }
       this.numCharacters = this.problem.eventList;
       this.numGroups = 0;
       _ref2 = this.problem.groups;
-      for (v = 0, _len2 = _ref2.length; v < _len2; v++) {
-        k = _ref2[v];
+      for (k in _ref2) {
+        v = _ref2[k];
         this.numGroups++;
       }
       this.solution = new Array(this.numCharacters);
