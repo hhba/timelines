@@ -132,8 +132,11 @@ Graficador.prototype.defaultLine = {
     'stroke-width': 3 
 };
 
-Graficador.prototype.loadData = function (data) {
+Graficador.prototype.loadData = function (data, labels) {
 	this.paper.clear();
+  for (label in labels){
+      this.writeLabel(label,labels[label])
+  }
 	for (var i=0; i< data.length; i++) {
 		this.writeText(data[i]);
 		var linesAndData = this.joinLine(data[i].segments);
@@ -223,6 +226,14 @@ Graficador.prototype.makeStringLine = function(arr) {
 	//string += 'Z';
 	return string;
 };
+Graficador.prototype.writeLabel = function(label,pos) {
+	var thisText = this.paper.text(
+			300 + this.config['margin-left'],
+      pos*this.config.ky+this.config['margin-top'],
+			label
+		),
+		opts = {};
+}
 
 Graficador.prototype.writeText = function(tHash) {
 	var thisText = this.paper.text(
