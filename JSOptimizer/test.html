@@ -1,0 +1,39 @@
+<html>
+  <head>
+    <title>Test optimizer</title>
+
+    <!-- jQuery and Raphael lib -->
+    <script src="http://code.jquery.com/jquery-1.7.1.min.js" type="text/javascript"></script>
+    <script src="https://raw.github.com/DmitryBaranovskiy/raphael/master/raphael.js" type="text/javascript"></script>
+    <script src="https://raw.github.com/DmitryBaranovskiy/g.raphael/master/g.raphael.js" type="text/javascript"></script>
+
+    <!-- Optimizer lib -->
+    <script type="text/javascript" src="js/taoptimizer.js"></script>
+
+    <!-- Main code -->
+    <script type="text/javascript" src="js/areaoptimization.js"></script>
+    <script type="text/javascript" src="js/test.js"></script>
+
+    <!-- styles -->
+    <style>
+      #solution-div {
+        margin: 0px;
+        padding: 10px;
+        border: 1px solid red;
+        width: 300px;
+        height: 300px;
+      }
+      #content {
+        margin: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="content">
+      <input type="button" id="start-button" value="Start"/>
+      <div id="energy"></div>
+      <div id="solution-div"></div>
+    </div>
+  </body>
+</html>
+<!-- vim: se ts=2 sw=2 expandtab: -->
