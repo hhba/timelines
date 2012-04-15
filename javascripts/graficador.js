@@ -134,6 +134,7 @@ Graficador.prototype.defaultLine = {
 
 Graficador.prototype.loadData = function (data, labels_y) {
 	this.paper.clear();
+  // Write labels on their x,y
   var writtenLabels={}
 	for (var i=0; i< data.length; i++) {
 		for (var ii = 0; ii < data[i].segments.length ; ii++){
@@ -141,12 +142,12 @@ Graficador.prototype.loadData = function (data, labels_y) {
         var label_id = segment['start']+segment['group']
         if (! writtenLabels[label_id]){
           writtenLabels[label_id] = 1
-  		    this.write(segment['group'],segment['start'][0],segment['start'][1]);
+  		    this.write(segment['group'],segment['start'][0] + 5,segment['start'][1]);
         }
     }
   }
 	for (var i=0; i< data.length; i++) {
-		this.writeText(data[i]);
+		this.writeText(data[i],i * 10);
 		var linesAndData = this.joinLine(data[i].segments);
 //		for (var ii = 0; ii < data[i].segments.length ; ii++){
 		for (var ii = 0; ii < linesAndData[0].length ; ii++){
@@ -154,7 +155,7 @@ Graficador.prototype.loadData = function (data, labels_y) {
 			//var thisStringLine = this.makeStringLine(linesAndData[0][ii]);
 			//var thisStringLinea = this.makeStringLine(linesAndData[0][ii]);
 			//var thisLinea = this.paper.path(thisStringLinea);
-			var thisStringLine = this.makeRoundStringLine(linesAndData[0][ii]);
+			var thisStringLine = this.makeRoundStringLine(linesAndData[0][ii],i * 10);
 			var thisLine = this.paper.path(thisStringLine);
 			var opts = {};
 			for (key in this.defaultLine)
@@ -204,24 +205,27 @@ Graficador.prototype.joinLine = function(segments) {
 	return [ret, attr];
 };
 
-Graficador.prototype.makeRoundStringLine = function(arr) {
+Graficador.prototype.makeRoundStringLine = function(arr, shiftY) {
 	function midPoint(Ax, Ay, Bx, By) {
 		var Zx = (Ax-Bx)/2 + Bx;
 		var Zy = (Ay-By)/2 + By;
 		return [Zx, Zy];
 	}
+  if (! shiftY ){
+          shiftY = 0
+  }
 	var string = 'M';
-	string += 'M'+ (arr[0][0]*this.config.kx+this.config['margin-left'])+','+(arr[0][1]*this.config.ky+this.config['margin-top']);
+	string += 'M'+ (arr[0][0]*this.config.kx+this.config['margin-left'])+','+(arr[0][1]*this.config.ky+this.config['margin-top']+shiftY);
 	var Z = [
 		arr[arr.length-2][0]*this.config.kx+this.config['margin-left'],
 		arr[arr.length-2][1]*this.config.ky+this.config['margin-top']
 	];
 	for (var i=1; i < arr.length-1; i++) {
-		string += 'Q'+(arr[i][0]*this.config.kx+this.config['margin-left'])+','+(arr[i][1]*this.config.ky+this.config['margin-top']);
-		Z = midPoint(arr[i][0]*this.config.kx+this.config['margin-left'], arr[i][1]*this.config.ky+this.config['margin-top'], arr[i+1][0]*this.config.kx+this.config['margin-left'], arr[i+1][1]*this.config.ky+this.config['margin-top']);
+		string += 'Q'+(arr[i][0]*this.config.kx+this.config['margin-left'])+','+(arr[i][1]*this.config.ky+this.config['margin-top']+shiftY);
+		Z = midPoint(arr[i][0]*this.config.kx+this.config['margin-left'], arr[i][1]*this.config.ky+this.config['margin-top']+shiftY, arr[i+1][0]*this.config.kx+this.config['margin-left'], arr[i+1][1]*this.config.ky+this.config['margin-top']+shiftY);
 		string += " "+Z[0]+","+Z[1];
 	}
-	string += 'Q'+Z[0]+","+Z[1]+' '+(arr[arr.length-1][0]*this.config.kx+this.config['margin-left'])+','+(arr[arr.length-1][1]*this.config.ky+this.config['margin-top']);
+	string += 'Q'+Z[0]+","+Z[1]+' '+(arr[arr.length-1][0]*this.config.kx+this.config['margin-left'])+','+(arr[arr.length-1][1]*this.config.ky+this.config['margin-top']+shiftY);
 	return string;
 };
 
@@ -243,10 +247,10 @@ Graficador.prototype.writeLabel = function(label,pos) {
 		opts = {};
 }
 
-Graficador.prototype.writeText = function(tHash) {
+Graficador.prototype.writeText = function(tHash,shiftY) {
 	var thisText = this.paper.text(
 			tHash.segments[0].start[0]*this.config.kx-this.config.textoffset + this.config['margin-left'],
-			tHash.segments[0].start[1]*this.config.ky+this.config['margin-top'],
+			tHash.segments[0].start[1]*this.config.ky+this.config['margin-top']+shiftY,
 			tHash.name
 		),
 		opts = {};
