@@ -132,10 +132,18 @@ Graficador.prototype.defaultLine = {
     'stroke-width': 3 
 };
 
-Graficador.prototype.loadData = function (data, labels) {
+Graficador.prototype.loadData = function (data, labels_y) {
 	this.paper.clear();
-  for (label in labels){
-      this.writeLabel(label,labels[label])
+  var writtenLabels={}
+	for (var i=0; i< data.length; i++) {
+		for (var ii = 0; ii < data[i].segments.length ; ii++){
+        var segment = data[i].segments[ii]
+        var label_id = segment['start']+segment['group']
+        if (! writtenLabels[label_id]){
+          writtenLabels[label_id] = 1
+  		    this.write(segment['group'],segment['start'][0],segment['start'][1]);
+        }
+    }
   }
 	for (var i=0; i< data.length; i++) {
 		this.writeText(data[i]);
@@ -247,6 +255,22 @@ Graficador.prototype.writeText = function(tHash) {
 	for (key in (tHash.attributes || {} )){
 		if (['fill', 'fill-opacity', 'font', 'font-family', 'font-size', 'font-weight', 'stroke', 'text-anchor'].indexOf(key) > -1)
 			opts[key] = tHash.attributes[key];
+	}
+	thisText.attr(opts);
+};
+
+Graficador.prototype.write = function(text,x,y,attributes) {
+	var thisText = this.paper.text(
+			x*this.config.kx-this.config.textoffset + this.config['margin-left'],
+			y*this.config.ky+this.config['margin-top'],
+      text
+		),
+		opts = {};
+	for (key in this.defaultText)
+		opts[key] = this.defaultText[key];
+	for (key in (attributes || {} )){
+		if (['fill', 'fill-opacity', 'font', 'font-family', 'font-size', 'font-weight', 'stroke', 'text-anchor'].indexOf(key) > -1)
+			opts[key] = attributes[key];
 	}
 	thisText.attr(opts);
 };

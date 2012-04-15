@@ -49,7 +49,11 @@ function mergeSegments(events, places_position){
             pos_y = places_position[positions[position]['group']];
             pos_x = positions[position]['orderBox'];
             var current = [pos_x, pos_y]
-            character_time['segments'].push({'start': current, "attributes":{"color": character['color'] || colorFromName(character['name']) }});
+            character_time['segments'].push({'start': current, 
+                        "group": positions[position]['group'],
+                        "attributes":
+                          {"color": character['color'] || colorFromName(character['name']) }
+                         });
             if(prev != null) {
                 character_time['segments'][character_time['segments'].length - 2]['end'] = current;
             }
