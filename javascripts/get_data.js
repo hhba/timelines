@@ -4,7 +4,9 @@ function get_data(url,cb) {
   // Crear el elemenot script
   var script = document.createElement('script');
   // set the src attribute to that url
-  script.setAttribute('src', url);
+  url = url.replace(/alt=[a-z]+/,'')
+  url = url.replace("/list/",'/cells/')
+  script.setAttribute('src', url + "&alt=json-in-script&callback=parseRequest");
   // insert the script in out page
   callback = cb
   document.getElementsByTagName('head')[0].appendChild(script);
