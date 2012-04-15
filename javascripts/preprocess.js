@@ -62,16 +62,19 @@ function mergeSegments(events, places_position){
     return result;
 }
 function colorFromName(texto) {
-        var valor = 0;
-	var colores = Array(3);
-        for(x=0;x<texto.length;x++){
-                var chr = texto.charAt(x);
-                var sumar = chr.charCodeAt(chr);
-                sumar = (sumar/255);
-                valor = valor + sumar;
-		colores[x-1] = ((valor/texto.length)*255);
-        }
-	var colorcito = (Math.round(colores[2]) + "," + Math.round(colores[3]) + "," + Math.round(colores[1]));
-	return("rgb(" + colorcito + ")");
+  var r="#"+intToARGB(hashCode(texto))
+  return r
 }
+function hashCode(str) { // java String#hashCode
+    var hash = 0;
+    for (var i = 0; i < str.length; i++) {
+       hash = str.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    return hash;
+} 
 
+function intToARGB(i){
+    return ((i>>16)&0xFF).toString(16) + 
+           ((i>>8)&0xFF).toString(16) + 
+           (i&0xFF).toString(16);
+}
