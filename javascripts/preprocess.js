@@ -46,6 +46,9 @@ function mergeSegments(events, places_position){
         var character_time = {'segments': []};
         var prev = null;
         for (position in positions){
+            if (positions[position]['group'] == ""){
+                    continue;
+            }
             pos_y = places_position[positions[position]['group']];
             pos_x = positions[position]['orderBox'];
             var current = [pos_x, pos_y]
