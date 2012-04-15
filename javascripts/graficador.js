@@ -249,7 +249,7 @@ Graficador.prototype.writeLabel = function(label,pos) {
 
 Graficador.prototype.writeText = function(tHash,shiftY) {
 	var thisText = this.paper.text(
-			tHash.segments[0].start[0]*this.config.kx-this.config.textoffset + this.config['margin-left'],
+			this.config.textoffset + this.config['margin-left'],
 			tHash.segments[0].start[1]*this.config.ky+this.config['margin-top']+shiftY,
 			tHash.name
 		),
