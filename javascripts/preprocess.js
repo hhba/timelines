@@ -69,7 +69,7 @@ function mergeSegments(events, places_position){
     return result;
 }
 function colorFromName(texto) {
-  var r="#"+intToARGB(hashCode(texto))
+  var r=intToARGB(hashCode(texto))
   return r
 }
 function hashCode(str) { // java String#hashCode
@@ -81,7 +81,7 @@ function hashCode(str) { // java String#hashCode
 } 
 
 function intToARGB(i){
-    return ((i>>16)&0xFF).toString(16) + 
-           ((i>>8)&0xFF).toString(16) + 
-           (i&0xFF).toString(16);
+    return "rgb("+((i&0xFF)) +"," +
+           ((i>>16)&0xFF) +"," + 
+           ((i>>8)&0xFF) + ")" 
 }
