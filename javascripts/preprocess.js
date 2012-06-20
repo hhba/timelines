@@ -1,3 +1,46 @@
+/**
+ * data tiene la siguiente estructura:
+ *  [
+ *    {
+ *      order: “2009-10-10”,
+ *      character:  “frodo”,
+ *      group: “rivendel”,
+ *      [...]
+ *    },
+ *    ...
+ *  ]
+ *
+ * Y devuevle:
+ *
+ *    {
+ *      eventList: [
+ *        {
+ *          // Gandalf
+ *          name: ‘Gandalf’,
+ *          position:
+ *            [
+ *              {orderBox: 20.3, group: ‘shire’},
+ *              {orderBox: 30, group: ‘isengard’},
+ *              {orderBox: 50, group: ‘mordor’},
+ *              ...
+ *            ]
+ *        },
+ *        {
+ *          // Frodo
+ *          name: ‘Frodo’
+ *          position:
+ *          [
+ *            {orderBox: 10, group: ‘shirel’},
+ *            {orderBox: 40, group: ‘mordor’},
+ *            ...
+ *          ],
+ *        },
+ *        ...
+ *      ],
+ *      groups: [‘shire’, ‘mordor’, ‘isengard’, … ]
+ *    } 
+ */
+
 function preprocessData(data) {
   var groups = {};
   var characters = {};
@@ -35,6 +78,29 @@ function preprocessData(data) {
 
 	return {eventList: eventList, groups: groups};
 }
+
+/*
+ * Recibe el output de preprocessData y devuelve la siguiente estructura:
+ *
+ *  [
+ *    // Gandalf
+ *    {
+ *      name: ”Gandalf”,
+ *      segments: [
+ *        { // segmento1
+ *          start: [0,0],
+ *          end: [100,100]
+ *          attributes: {}
+ *        }, 
+ *        { // segmento2
+ *        ...
+ *        }
+ *      ]
+ *    },
+ *    // Frodo
+ *    ...
+ *  ]
+ */
 
 function mergeSegments(events, places_position){
     var result = Array();

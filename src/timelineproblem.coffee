@@ -16,12 +16,18 @@ class TimeLineProblem extends ProblemInstance
   @groupPosition: []
   @groupNames: []
 
+  # Map time -> groups
+  @position2Groups: []
+
   constructor: (@problem) ->
 
     # contar personajes
     @numCharacters = 0
     for k, v of @problem.eventList
       @numCharacters++
+
+    # setup position2Groups
+    @fillPosition2Groups()
    
     # contar grupos
     @groupPosition = {}
@@ -57,8 +63,10 @@ class TimeLineProblem extends ProblemInstance
     cost = 0
     for j in [0 .. charData.length - 1]
       segments = charData[j].segments
-      numSegments = segments.length
-      for i in [0 .. numSegments - 1]
+      numSegments = if segments.length > 0 then segments.length - 1 else 0
+      if numSegments == 0
+        continue
+      for i in [0 .. numSegments]
         segment = segments[i]
         cost += Math.abs(segment.end[1] - segment.start[1])
 
@@ -87,6 +95,8 @@ class TimeLineProblem extends ProblemInstance
     op = Math.round( Math.random() * numOperations )
     from = @groupNames[i]
     to   = @groupNames[j]
+
+    #console.log( from + ' <> ' + to);
     prevPos = @groupPosition[to]
     @groupPosition[to] = @groupPosition[from]
     @groupPosition[from] = prevPos
@@ -109,6 +119,22 @@ class TimeLineProblem extends ProblemInstance
     @groupPosition = {}
     for k, v of @problem.groups
       @groupPosition[k] = @prevGroupPosition[k]
+
+
+  # Helper functions
+  fillPosition2Groups: ->
+    # Hash that has what groups are in which positions
+    allPositions = {}
+    for k, v of @problem.eventList
+      for pos in v.position
+        allPositions[pos.orderBox] = {} if allPositions[pos.orderBox] is undefined
+        allPositions[pos.orderBox][pos.group] = true
+
+    @position2Groups = []
+    for order,data in allPositions
+      for k,v of data
+        @position2Groups.push k
+
 
 window.TimeLineProblem = TimeLineProblem
 

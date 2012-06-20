@@ -80,7 +80,7 @@
 <div class="clearfix">
     <label>Url del Gdoc (Spreadsheet Please)</label>
     <div class="input">
-        <input type="text" class="input-xxlarge" name="url" id='url' value='https://spreadsheets.google.com/feeds/cells/0Am-1z1iy1tkZdHJkYmhCdjA3TU8xVTJTV2E1TE5TYVE/od6/public/basic?alt=json-in-script&callback=parseRequest' />
+        <input type="text" class="input-xxlarge" name="url" id='url' value='https://spreadsheets.google.com/feeds/list/0AroKqlZ3hHf0dEhKRS02cGs0QW9WcGpRTXRETm51Q0E/od5/public/basic?alt=rss' />
     </div>
 </div>
   <p>
@@ -133,9 +133,9 @@
                 var params = {
                       maxE: -1000000, 
                       minE: 1000000, 
-                      initialThreshold: 1,
-                      scaleIterationFactor: 0.9,
-                      maxThresholdIter: 100, 
+                      initialThreshold: 500,
+                      scaleIterationFactor: 0.99,
+                      maxThresholdIter: 400, 
                       maxIter: 2000000,
                       debug: true
                 };
@@ -168,7 +168,7 @@
 
                   // loop and see how it changes
                   var doLoop = function() { 
-                    r = optimizer.step(100); 
+                    r = optimizer.step(400); 
                     if (r) { 
                       console.log(optimizer.instance.energy())
                       window.setTimeout(doLoop, 1) 

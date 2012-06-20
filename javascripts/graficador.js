@@ -134,43 +134,67 @@ Graficador.prototype.defaultLine = {
 
 Graficador.prototype.loadData = function (data, labels_y) {
 	this.paper.clear();
-  // Write labels on their x,y
-  var writtenLabels={}
-	for (var i=0; i< data.length; i++) {
-		for (var ii = 0; ii < data[i].segments.length ; ii++){
-        var segment = data[i].segments[ii]
-        var label_id = segment['start']+segment['group']
-        if (! writtenLabels[label_id]){
-          writtenLabels[label_id] = 1
-  		    this.write(segment['group'],segment['start'][0] + 5,segment['start'][1]);
-        }
-    }
-  }
-	for (var i=0; i< data.length; i++) {
-		this.writeText(data[i],i * 10);
-		var linesAndData = this.joinLine(data[i].segments);
-//		for (var ii = 0; ii < data[i].segments.length ; ii++){
-		for (var ii = 0; ii < linesAndData[0].length ; ii++){
-//			var thisStringLine = this.makeStringLine([data[i].segments[ii].start, data[i].segments[ii].end]);
-			//var thisStringLine = this.makeStringLine(linesAndData[0][ii]);
-			//var thisStringLinea = this.makeStringLine(linesAndData[0][ii]);
-			//var thisLinea = this.paper.path(thisStringLinea);
-			var thisStringLine = this.makeRoundStringLine(linesAndData[0][ii],i * 10);
-			var thisLine = this.paper.path(thisStringLine);
-			var opts = {};
-			for (key in this.defaultLine)
-				opts[key] = this.defaultLine[key];
-			//opts['stroke'] = data[i].segments[ii].attributes.color;
-			opts['stroke'] = linesAndData[1][ii].color;
-			//opts['color'] = data[i].segments[ii].attributes.color;
-			opts['color'] = linesAndData[1][ii].color;
-			thisLine.attr(opts);
-            thisLine.mouseover(this.animateIn);
-            thisLine.mouseout(this.animateOut);
+	
+  	// Draw segments
+	for (var i = 0; i < data.length; i++) {
+		for (var j = 0; j < data[i].segments.length ; j++){
+			var segment = data[i].segments[j];
+			this.drawSegment(segment, i);
 		}
+		this.drawGroupPos(data[i], i * 10);
 	}
+
+	// Write labels on their x,y
+	var writtenLabels = {}
+	for (var i = 0; i < data.length; i++) {
+		for (var ii = 0; ii < data[i].segments.length ; ii++) {
+	        var segment = data[i].segments[ii]
+	        var label_id = segment['start'] + segment['group']
+	        if (! writtenLabels[label_id]){
+	        	writtenLabels[label_id] = 1
+	  		    this.write(segment['group'],segment['start'][0] + 5, segment['start'][1] - 5);
+	        }
+    	}
+  	}
 };
 
+Graficador.prototype.drawSegment = function(segment, shiftIndex) {
+	// Calcular el midpoint
+	function calcMiddle(a, b) {
+		return a + 0.5 * (b - a);
+	}
+
+	var x1 = segment.start[0],
+		x2 = segment.end[0],
+		y1 = segment.start[1],
+		y2 = segment.end[1];
+
+	var mp = [calcMiddle(x1,x2), calcMiddle(y1,y2)];
+
+	// make line
+	var width = 2;
+	var out = 'M' + this.p2String([x1,y1], shiftIndex);
+	out += 'L' + this.p2String([mp[0] - width, y1], shiftIndex);
+	out += 'L' + this.p2String([mp[0] + width, y2], shiftIndex);
+	out += 'L' + this.p2String([x2,y2], shiftIndex);
+	var line = this.paper.path(out);
+
+	line.attr(
+		{'stroke': segment.attributes.color, 'stroke-width': 4, 'stroke-linejoin': 'round'}
+	);
+}
+
+Graficador.prototype.scaleP = function(p, shiftIndex) {
+	var x = p[0] * this.config.kx + this.config['margin-left'];
+	var y = p[1] * this.config.ky + this.config['margin-top'] + shiftIndex * 10;
+	return [x,y];
+}
+
+// escala y devuelve un string con las cordenadas
+Graficador.prototype.p2String = function(p, shiftIndex) {
+	var np = this.scaleP(p, 0);
+	return np[0] + ',' + np[1];
+}
 
 Graficador.prototype.animateIn = function() {
     this.defaultStroke = this.attr('stroke-width');
@@ -247,10 +271,10 @@ Graficador.prototype.writeLabel = function(label,pos) {
 		opts = {};
 }
 
-Graficador.prototype.writeText = function(tHash,shiftY) {
+Graficador.prototype.drawGroupPos = function(tHash,shiftY) {
 	var thisText = this.paper.text(
 			this.config.textoffset + this.config['margin-left'],
-			tHash.segments[0].start[1]*this.config.ky+this.config['margin-top']+shiftY,
+			tHash.segments[0].start[1] * this.config.ky+this.config['margin-top'] + shiftY,
 			tHash.name
 		),
 		opts = {};
