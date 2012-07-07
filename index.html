@@ -133,9 +133,9 @@
                 var params = {
                       maxE: -1000000, 
                       minE: 1000000, 
-                      initialThreshold: 500,
+                      initialThreshold: 300,
                       scaleIterationFactor: 0.99,
-                      maxThresholdIter: 400, 
+                      maxThresholdIter: 900, 
                       maxIter: 2000000,
                       debug: true
                 };
@@ -157,7 +157,7 @@
 
                 var redraw = function(o) {
                   console.log("Redraw called!");
-                  console.log(o.solution);
+                  //console.log(o.solution);
                   grafico.loadData(o.solution, o.instance.groupPosition);
                 }
 

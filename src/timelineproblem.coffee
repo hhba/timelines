@@ -16,7 +16,8 @@ class TimeLineProblem extends ProblemInstance
   @groupPosition: []
   @groupNames: []
 
-  # Map time -> groups
+  # Map time -> groups - Tiene para cada instante que grupos
+  # hay en ese tiempo
   @position2Groups: []
 
   constructor: (@problem) ->
@@ -81,11 +82,11 @@ class TimeLineProblem extends ProblemInstance
 
     # Choose one vertex
     i = Math.round( Math.random() *  @numGroups )
-    i = @numGroups - 1 if i > @numGroups
+    i = @numGroups - 1 if i >= @numGroups
 
     # Choose another vertex
     j = Math.round( Math.random() *  @numGroups )
-    j = @numGroups - 1 if j > @numGroups
+    j = @numGroups - 1 if j >= @numGroups
 
     # delta is a randum number between +/- 0.1
     delta = ( Math.random() - 0.5 ) * ( 0.2 * 100.0 / @numGroups )

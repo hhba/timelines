@@ -135,7 +135,7 @@ function mergeSegments(events, places_position){
     return result;
 }
 function colorFromName(texto) {
-  var r=intToARGB(hashCode(texto))
+  var r = intToARGB(hashCode(texto))
   return r
 }
 function hashCode(str) { // java String#hashCode
@@ -146,8 +146,37 @@ function hashCode(str) { // java String#hashCode
     return hash;
 } 
 
-function intToARGB(i){
-    return "rgb("+((i&0xFF)) +"," +
-           ((i>>16)&0xFF) +"," + 
-           ((i>>8)&0xFF) + ")" 
+function intToARGB(i)
+{
+  var paleta = [
+    '#26b5ff',
+    '#087dd7',
+    '#0a55bb',
+    '#864db1',
+    '#550790',
+    '#c40808',
+    '#fb8a11',
+    '#ffeb0c',
+    '#baeb35',
+    '#298a0b',
+    '#0adbe8',
+    '#08aeb8',
+    '#fe71a9',
+    '#f3377f',
+        '#c40808',
+    '#fb8a11',
+    '#ffeb0c',
+    '#baeb35',
+    '#298a0b',
+    '#08aeb8',
+    '#fe71a9',
+    '#f3377f',
+
+    '#aaaaaa',
+    '#cccccc',
+    '#999999',
+
+  ];
+
+  return paleta[ Math.abs(i) % paleta.length];
 }

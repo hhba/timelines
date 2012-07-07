@@ -159,29 +159,91 @@ Graficador.prototype.loadData = function (data, labels_y) {
 };
 
 Graficador.prototype.drawSegment = function(segment, shiftIndex) {
+
 	// Calcular el midpoint
 	function calcMiddle(a, b) {
 		return a + 0.5 * (b - a);
 	}
 
-	var x1 = segment.start[0],
-		x2 = segment.end[0],
-		y1 = segment.start[1],
-		y2 = segment.end[1];
+	//var shiftIndex = 0;
 
-	var mp = [calcMiddle(x1,x2), calcMiddle(y1,y2)];
+	var x1 = this.scaleX(segment.start[0], shiftIndex),
+		x2 = this.scaleX(segment.end[0], shiftIndex),
+		y1 = this.scaleY(segment.start[1], shiftIndex),
+		y2 = this.scaleY(segment.end[1], shiftIndex);
+
+	var mp = [calcMiddle(x1, x2), calcMiddle(y1, y2)];
 
 	// make line
-	var width = 2;
-	var out = 'M' + this.p2String([x1,y1], shiftIndex);
-	out += 'L' + this.p2String([mp[0] - width, y1], shiftIndex);
-	out += 'L' + this.p2String([mp[0] + width, y2], shiftIndex);
-	out += 'L' + this.p2String([x2,y2], shiftIndex);
-	var line = this.paper.path(out);
+	var width = 0.1 * this.scaleX( Math.abs(segment.end[0] - segment.start[0]), shiftIndex);
+
+	// linea blanca que borra
+	var line = this.paper.path( 
+		this.curve( x1, y1, mp[0], x2, y2, width)
+	)
 
 	line.attr(
-		{'stroke': segment.attributes.color, 'stroke-width': 4, 'stroke-linejoin': 'round'}
+		{
+			'stroke': '#ffffff', 
+			'stroke-width': 7, 
+			'stroke-linejoin': 'round', 
+			'stroke-linecap': 'round'
+		}
 	);
+
+	// linea fina
+	var line2 = this.paper.path( 
+		this.curve( x1, y1, mp[0], x2, y2, width)
+	)
+
+	line2.attr(
+		{
+			'stroke': segment.attributes.color, 
+			'stroke-width': 2, 
+			'stroke-linejoin': 'round', 
+			'stroke-linecap': 'round'
+		}
+	);
+
+	// endpoints
+	this.drawCircle( x1, y1, 2, '#ff0000', '#00ff00');
+}
+
+Graficador.prototype.drawCircle = function(x, y, r, color, filled) {
+    var circle = this.paper.circle(x, y, r);
+}
+
+Graficador.prototype.curve = function(x1, y1, mx, x2, y2, w) {
+
+	var path;
+	var delta = w * .2;
+	
+	if (y1 == y2) {
+		path = [
+			["M", x1, y1], 
+			["L", x2, y2]
+		];
+	} else if (y1 > y2) {
+		path = [
+			["M", x1, y1], 
+			["L", mx - w - delta, y1],
+			["Q", mx - w, y1, mx - w + delta, y1 - delta],
+			["L", mx + w - delta, y2 + delta],
+			["Q", mx + w, y2, mx + w + delta, y2],
+			["L", x2, y2]
+		];
+	} else if (y1 < y2) {
+		path = [
+			["M", x1, y1], 
+			["L", mx - w - delta, y1],
+			["Q", mx - w, y1, mx - w + delta, y1 + delta],
+			["L", mx + w - delta, y2 - delta],
+			["Q", mx + w, y2, mx + w + delta, y2],
+			["L", x2, y2]
+		];
+	}
+	
+	return path;
 }
 
 Graficador.prototype.scaleP = function(p, shiftIndex) {
@@ -189,6 +251,13 @@ Graficador.prototype.scaleP = function(p, shiftIndex) {
 	var y = p[1] * this.config.ky + this.config['margin-top'] + shiftIndex * 10;
 	return [x,y];
 }
+Graficador.prototype.scaleX = function(x, shiftIndex) {
+	return x * this.config.kx + this.config['margin-left'];
+}
+Graficador.prototype.scaleY = function(y, shiftIndex) {
+	return y * this.config.ky + this.config['margin-top'] + shiftIndex * 10;
+}
+
 
 // escala y devuelve un string con las cordenadas
 Graficador.prototype.p2String = function(p, shiftIndex) {
