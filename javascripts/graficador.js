@@ -152,7 +152,8 @@ Graficador.prototype.loadData = function (data, labels_y) {
 	        var label_id = segment['start'] + segment['group']
 	        if (! writtenLabels[label_id]){
 	        	writtenLabels[label_id] = 1
-	  		    this.write(segment['group'],segment['start'][0] + 5, segment['start'][1] - 5);
+	  		    //this.write(segment['group'], segment['start'][0] + 5, segment['start'][1] - 5);
+	  		    this.write(segment['group'], 100, segment['start'][1] - 5);
 	        }
     	}
   	}
@@ -331,7 +332,7 @@ Graficador.prototype.makeStringLine = function(arr) {
 	//string += 'Z';
 	return string;
 };
-Graficador.prototype.writeLabel = function(label,pos) {
+Graficador.prototype.writeLabel = function(label, pos) {
 	var thisText = this.paper.text(
 			300 + this.config['margin-left'],
       pos*this.config.ky+this.config['margin-top'],
@@ -340,9 +341,9 @@ Graficador.prototype.writeLabel = function(label,pos) {
 		opts = {};
 }
 
-Graficador.prototype.drawGroupPos = function(tHash,shiftY) {
+Graficador.prototype.drawGroupPos = function(tHash, shiftY) {
 	var thisText = this.paper.text(
-			this.config.textoffset + this.config['margin-left'],
+			this.config.textoffset + this.config['margin-left'] - 10,
 			tHash.segments[0].start[1] * this.config.ky+this.config['margin-top'] + shiftY,
 			tHash.name
 		),
@@ -356,7 +357,7 @@ Graficador.prototype.drawGroupPos = function(tHash,shiftY) {
 	thisText.attr(opts);
 };
 
-Graficador.prototype.write = function(text,x,y,attributes) {
+Graficador.prototype.write = function(text, x, y, attributes) {
 	var thisText = this.paper.text(
 			x*this.config.kx-this.config.textoffset + this.config['margin-left'],
 			y*this.config.ky+this.config['margin-top'],
