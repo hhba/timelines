@@ -157,6 +157,7 @@ Graficador.prototype.loadData = function (data, labels_y) {
 	}
 
   // Draw segments
+  this.nameDrawn = {};
 	for(var i = 0; i < this.segments.length; i++) {
 		this.drawSegmentGroup(this.segments[i]);
 	}
@@ -181,6 +182,7 @@ Graficador.prototype.loadData = function (data, labels_y) {
       }
 		}
 	}
+
 }
 
 Graficador.prototype.mergeSegments = function() {
@@ -232,11 +234,19 @@ Graficador.prototype.drawSegmentGroup = function(segmentGroup) {
 		} else {
 			var delta = 2 * (i - numSegments / 2 + 0.5);
 		}
-		this.drawSegment(segment, delta);
+
+		// name
+		if (! this.nameDrawn[segment.owner]) {
+			name = segment.owner;
+			this.nameDrawn[name] = true;
+		} else {
+			name = '';
+		}
+		this.drawSegment(segment, delta, name);
 	}
 }
 
-Graficador.prototype.drawSegment = function(segment, delta) {
+Graficador.prototype.drawSegment = function(segment, delta, name) {
 
 	// Calcular el midpoint
 	function calcMiddle(a, b) {
@@ -294,6 +304,19 @@ Graficador.prototype.drawSegment = function(segment, delta) {
 
 	// endpoints
 	this.drawCircle( x1, y1, 2, '#ff0000', '#00ff00');
+
+	// write name if given
+	if (name != '') {
+		this.write(
+			name, segment.start[0], segment.start[1] + 3 * delta, 
+			{
+				'fill': segment.attributes.color, 
+				'font-size': '12px',
+				'font-weight': 'bold',
+			}
+		);
+	}
+
 }
 
 Graficador.prototype.drawSegmentPoints = function(segment) {
@@ -497,7 +520,7 @@ Graficador.prototype.write = function(text, x, y, attributes) {
 	for (key in this.defaultText)
 		opts[key] = this.defaultText[key];
 	for (key in (attributes || {} )){
-		if (['fill', 'fill-opacity', 'font', 'font-family', 'font-size', 'font-weight', 'stroke', 'text-anchor'].indexOf(key) > -1)
+		if (['fill', 'fill-opacity', 'font', 'font-family', 'font-size', 'font-weight', 'stroke', 'stroke-width', 'text-anchor'].indexOf(key) > -1)
 			opts[key] = attributes[key];
 	}
 	thisText.attr(opts);
