@@ -83,9 +83,9 @@
         this.prevGroupPosition[k] = this.groupPosition[k];
       }
       i = Math.round(Math.random() * this.numGroups);
-      if (i > this.numGroups) i = this.numGroups - 1;
+      if (i >= this.numGroups) i = this.numGroups - 1;
       j = Math.round(Math.random() * this.numGroups);
-      if (j > this.numGroups) j = this.numGroups - 1;
+      if (j >= this.numGroups) j = this.numGroups - 1;
       delta = (Math.random() - 0.5) * (0.2 * 100.0 / this.numGroups);
       numOperations = 2;
       op = Math.round(Math.random() * numOperations);

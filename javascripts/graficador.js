@@ -133,33 +133,110 @@ Graficador.prototype.defaultLine = {
 };
 
 Graficador.prototype.loadData = function (data, labels_y) {
+
+	this.data = data;
+
+	this.mergeSegments();
+
 	this.paper.clear();
 	
-  	// Draw segments
+	// Draw time axis
+	var xAxisDrawn = {};
+	for(var i = 0; i < this.segments.length; i++) {
+		var s = this.segments[i];
+		var x1 = s.start[0];
+		if (! xAxisDrawn[x1]) {
+			this.drawXAxis(x1);
+			xAxisDrawn[x1] = true;
+		}
+		x1 = s.end[0];
+		if (! xAxisDrawn[x1]) {
+			this.drawXAxis(x1);
+			xAxisDrawn[x1] = true;
+		}
+	}
+
+  // Draw segments
+	for(var i = 0; i < this.segments.length; i++) {
+		this.drawSegmentGroup(this.segments[i]);
+	}
+
+	// Draw segment coordinates
 	for (var i = 0; i < data.length; i++) {
 		for (var j = 0; j < data[i].segments.length ; j++){
 			var segment = data[i].segments[j];
-			this.drawSegment(segment, i);
+			this.drawSegmentPoints(segment, i);
 		}
-		this.drawGroupPos(data[i], i * 10);
 	}
 
 	// Write labels on their x,y
 	var writtenLabels = {}
 	for (var i = 0; i < data.length; i++) {
 		for (var ii = 0; ii < data[i].segments.length ; ii++) {
-	        var segment = data[i].segments[ii]
-	        var label_id = segment['start'] + segment['group']
-	        if (! writtenLabels[label_id]){
-	        	writtenLabels[label_id] = 1
-	  		    //this.write(segment['group'], segment['start'][0] + 5, segment['start'][1] - 5);
-	  		    this.write(segment['group'], 100, segment['start'][1] - 5);
-	        }
-    	}
-  	}
-};
+      var segment = data[i].segments[ii]
+      var label_id = segment.group;
+      if (! writtenLabels[label_id]) {
+      	writtenLabels[label_id] = 1;
+		    this.write(segment.group, 100, segment.start[1]);
+      }
+		}
+	}
+}
 
-Graficador.prototype.drawSegment = function(segment, shiftIndex) {
+Graficador.prototype.mergeSegments = function() {
+	this.segments = [];
+
+	for (var i = 0; i < this.data.length; i++) {
+		for (var j = 0; j < this.data[i].segments.length ; j++){
+			var segment = this.data[i].segments[j];
+			segment.owner = this.data[i].name;
+			var k = this.segmentIsRepeated(segment);
+			if (k >= 0) {
+				var s = this.segments[k];
+				s.members.push(segment);
+			} else {
+				var newSegment = {
+					start: segment.start,
+					end: segment.end,
+					members: [segment],
+				};
+				this.segments.push(newSegment);
+			}
+		}
+	}
+}
+
+Graficador.prototype.segmentIsRepeated = function(segment) {
+	for(var i = 0; i < this.segments.length; i++) {
+		var s = this.segments[i];
+		if (s.start[0] == segment.start[0] && 
+			s.end[0] == segment.end[0]) {
+			if (s.start[1] == segment.start[1] &&
+				s.end[1] == segment.end[1]) {
+				return i;
+			}
+		}
+	}
+	return -1;
+}
+
+Graficador.prototype.drawSegmentGroup = function(segmentGroup) {
+
+	var numSegments = segmentGroup.members.length
+	var numberOfSegmentsIsOdd = ( numSegments % 2);
+
+	for(var i = 0; i < numSegments; i++) {
+		var segment = segmentGroup.members[i];
+		if (numberOfSegmentsIsOdd) {
+			var delta = i - (numSegments - 1) / 2; 
+		} else {
+			var delta = 2 * (i - numSegments / 2 + 0.5);
+		}
+		this.drawSegment(segment, delta);
+	}
+}
+
+Graficador.prototype.drawSegment = function(segment, delta) {
 
 	// Calcular el midpoint
 	function calcMiddle(a, b) {
@@ -168,33 +245,42 @@ Graficador.prototype.drawSegment = function(segment, shiftIndex) {
 
 	//var shiftIndex = 0;
 
-	var x1 = this.scaleX(segment.start[0], shiftIndex),
-		x2 = this.scaleX(segment.end[0], shiftIndex),
-		y1 = this.scaleY(segment.start[1], shiftIndex),
-		y2 = this.scaleY(segment.end[1], shiftIndex);
+	var x1 = this.scaleX(segment.start[0], 0),
+		x2 = this.scaleX(segment.end[0], 0),
+		y1 = this.scaleY(segment.start[1], 0),
+		y2 = this.scaleY(segment.end[1], 0);
 
 	var mp = [calcMiddle(x1, x2), calcMiddle(y1, y2)];
 
 	// make line
-	var width = 0.1 * this.scaleX( Math.abs(segment.end[0] - segment.start[0]), shiftIndex);
+	var width = 0.1 * this.scaleX( Math.abs(segment.end[0] - segment.start[0]), 0);
+	if (width > 15) {
+		width = 15;
+	}
 
 	// linea blanca que borra
 	var line = this.paper.path( 
-		this.curve( x1, y1, mp[0], x2, y2, width)
+		this.curve( x1, y1, mp[0], x2, y2, width, delta)
 	)
 
 	line.attr(
 		{
 			'stroke': '#ffffff', 
-			'stroke-width': 7, 
+			'stroke-width': 5, 
 			'stroke-linejoin': 'round', 
 			'stroke-linecap': 'round'
 		}
 	);
 
+	line.mouseover(function() {
+		line.attr({'stroke-width': 8});
+	}).mouseout(function() {
+		line.attr({'stroke-width': 2});
+	});
+
 	// linea fina
 	var line2 = this.paper.path( 
-		this.curve( x1, y1, mp[0], x2, y2, width)
+		this.curve( x1, y1, mp[0], x2, y2, width, delta)
 	)
 
 	line2.attr(
@@ -210,14 +296,32 @@ Graficador.prototype.drawSegment = function(segment, shiftIndex) {
 	this.drawCircle( x1, y1, 2, '#ff0000', '#00ff00');
 }
 
-Graficador.prototype.drawCircle = function(x, y, r, color, filled) {
-    var circle = this.paper.circle(x, y, r);
+Graficador.prototype.drawSegmentPoints = function(segment) {
+
+	//var shiftIndex = 0;
+
+	var x1 = this.scaleX(segment.start[0]),
+		x2 = this.scaleX(segment.end[0]),
+		y1 = this.scaleY(segment.start[1]),
+		y2 = this.scaleY(segment.end[1]);
+
+	// endpoints
+	this.drawCircle( x1, y1, 3, '#444', '#ffffff');
+	this.drawCircle( x2, y2, 3, '#444', '#ffffff');
+
 }
 
-Graficador.prototype.curve = function(x1, y1, mx, x2, y2, w) {
+Graficador.prototype.drawCircle = function(x, y, r, color, borderColor) {
+    var circle = this.paper.circle(x, y, r);
+    circle.attr({'stroke-width': 1, 'fill': color, 'stroke': borderColor});
+}
+
+Graficador.prototype.curve = function(x1, y1, mx, x2, y2, w, offset) {
 
 	var path;
 	var delta = w * .2;
+	var dx = 5;
+	var dy = offset * 8;
 	
 	if (y1 == y2) {
 		path = [
@@ -226,20 +330,24 @@ Graficador.prototype.curve = function(x1, y1, mx, x2, y2, w) {
 		];
 	} else if (y1 > y2) {
 		path = [
-			["M", x1, y1], 
-			["L", mx - w - delta, y1],
-			["Q", mx - w, y1, mx - w + delta, y1 - delta],
-			["L", mx + w - delta, y2 + delta],
-			["Q", mx + w, y2, mx + w + delta, y2],
+			["M", x1, y1],
+			["L", x1 + dx, y1 + dy],
+			["L", mx - w - delta, y1 + dy ],
+			["Q", mx - w, y1 + dy, mx - w + delta, y1 - delta + dy],
+			["L", mx + w - delta, y2 + delta + dy],
+			["Q", mx + w, y2 + dy, mx + w + delta, y2 + dy],
+			["L", x2 - dx, y2 + dy],
 			["L", x2, y2]
 		];
 	} else if (y1 < y2) {
 		path = [
-			["M", x1, y1], 
-			["L", mx - w - delta, y1],
-			["Q", mx - w, y1, mx - w + delta, y1 + delta],
-			["L", mx + w - delta, y2 - delta],
-			["Q", mx + w, y2, mx + w + delta, y2],
+			["M", x1, y1],
+			["L", x1 + dx, y1 + dy],
+			["L", mx - w - delta, y1 + dy],
+			["Q", mx - w, y1 + dy, mx - w + delta, y1 + delta + dy],
+			["L", mx + w - delta, y2 - delta + dy],
+			["Q", mx + w, y2 + dy, mx + w + delta, y2 + dy],
+			["L", x2 - dx, y2 + dy],
 			["L", x2, y2]
 		];
 	}
@@ -247,22 +355,44 @@ Graficador.prototype.curve = function(x1, y1, mx, x2, y2, w) {
 	return path;
 }
 
-Graficador.prototype.scaleP = function(p, shiftIndex) {
+Graficador.prototype.drawXAxis = function(x) {
+	var x1 = this.scaleX(x);
+	path = [
+		["M", x1, 0],
+		["L", x1, this.scaleY(100)]
+	];
+	
+	// linea fina
+	var line2 = this.paper.path(path);
+
+	line2.attr(
+		{
+			'stroke': '#ddd', 
+			'stroke-width': 1, 
+			'stroke-linejoin': 'round', 
+			'stroke-linecap': 'round',
+			'stroke-dasharray': '- ',
+		}
+	);
+
+}
+
+Graficador.prototype.scaleP = function(p) {
 	var x = p[0] * this.config.kx + this.config['margin-left'];
-	var y = p[1] * this.config.ky + this.config['margin-top'] + shiftIndex * 10;
+	var y = p[1] * this.config.ky + this.config['margin-top'];
 	return [x,y];
 }
-Graficador.prototype.scaleX = function(x, shiftIndex) {
+Graficador.prototype.scaleX = function(x) {
 	return x * this.config.kx + this.config['margin-left'];
 }
-Graficador.prototype.scaleY = function(y, shiftIndex) {
-	return y * this.config.ky + this.config['margin-top'] + shiftIndex * 10;
+Graficador.prototype.scaleY = function(y) {
+	return y * this.config.ky + this.config['margin-top'];
 }
 
 
 // escala y devuelve un string con las cordenadas
 Graficador.prototype.p2String = function(p, shiftIndex) {
-	var np = this.scaleP(p, 0);
+	var np = this.scaleP(p);
 	return np[0] + ',' + np[1];
 }
 

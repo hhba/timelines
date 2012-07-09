@@ -61,6 +61,7 @@ function preprocessData(data) {
 			eventList[data[d].character] = {};
 		}
 		eventList[data[d].character].name = data[d].character;
+    eventList[data[d].character].color = data[d].color;
 		if (!eventList[data[d].character].position) {
 			eventList[data[d].character].position = [];
 		}
@@ -163,7 +164,7 @@ function intToARGB(i)
     '#08aeb8',
     '#fe71a9',
     '#f3377f',
-        '#c40808',
+    '#c40808',
     '#fb8a11',
     '#ffeb0c',
     '#baeb35',
