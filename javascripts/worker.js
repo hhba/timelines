@@ -4,7 +4,6 @@ var running = false;
 var stopIssued = false;
 
 // Event loop handler
-//self.addEventListener(function(e) {
 onmessage = function(e) {
   switch(e.data.cmd) {
     case 'run':
@@ -15,7 +14,6 @@ onmessage = function(e) {
       break;
   }
 };
-//});
 
 // Run optimization
 function runOptimizer(data) {
@@ -51,6 +49,5 @@ function runOptimizer(data) {
 
 // Stop optimization
 function stopOptimizer(data) {
-  console.log('stop Optimizer called');
   stopIssued = true;
 }
