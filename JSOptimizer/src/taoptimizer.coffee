@@ -19,7 +19,6 @@ class ProblemInstance
 
 
 #
-#
 # This is a threshold acceptance (TA) optimizer implemented
 # in Coffeescript.
 #
@@ -55,8 +54,6 @@ class TAOptimizer
 
 	# Main routine 
 	start: ->
-		console.log 'Starting optimization.' if @params.debug
-
 		# initial values
 		@running   = true
 		@currentE  = @params.minE
@@ -84,8 +81,6 @@ class TAOptimizer
 			@numIter++
 			if @numIter % @params.maxThresholdIter == 0
 				@threshold = @params.scaleIterationFactor * @threshold
-				console.log "currentE =  #{@currentE} "
-				#console.log @solution if @params.debug
 
 				# Make call to callback if set
 				@callback(this) if @callback != null
@@ -95,8 +90,8 @@ class TAOptimizer
 
 		return @running
 
-# Set to window
-window.TAOptimizer = TAOptimizer
-window.ProblemInstance = ProblemInstance
+# Set to navigator
+navigator.TAOptimizer = TAOptimizer
+navigator.ProblemInstance = ProblemInstance
 
 # vim: se ts=2 sw=2 ai expantab:

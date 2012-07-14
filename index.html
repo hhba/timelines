@@ -130,7 +130,11 @@
     <script>
     $("#btn").click(function(){
         get_data(document.getElementById('url').value, function(data){
+
+                // data a procesar
                 var preprocessed_data = preprocessData(data);
+
+                // parametros de la optimizacion
                 var params = {
                       maxE: -1000000, 
                       minE: 1000000, 
@@ -138,12 +142,11 @@
                       scaleIterationFactor: 0.99,
                       maxThresholdIter: 200, 
                       maxIter: 2000000,
+                      stepIter: 6000,
                       debug: true
                 };
 
-                var p = new TimeLineProblem(preprocessed_data);
-                var optimizer = new TAOptimizer(p, params); 
-
+                // parametros del graficador
                 var grafico = new Graficador('graph', {
                         width: 1100,//px
                         height: 600,//px
@@ -156,27 +159,27 @@
                         ky: 4,                  
                 });
 
-                var redraw = function(o) {
-                  console.log("Redraw called!");
-                  grafico.loadData(o.solution, o.instance.groupPosition);
-                }
+                // worker que va a optimizar
+                var worker = new Worker('javascripts/worker.js');
 
-                  optimizer.callback = redraw
-                  optimizer.start();
+                // Handle worker events
+                worker.addEventListener('message', function(e) {
+                  var cmd = e.data.cmd;
+  
+                  if (cmd == 'redraw') {
+                    var o = e.data.optimizer;
+                    grafico.loadData(o.solution, o.instance.groupPosition);
+                    $('#cost').html('<p><strong>costo:</strong> ' + Math.round(e.data.cost) + '</p>');
+                  }
+                });
 
-                  window.optimizer = optimizer;
-
-                  // loop and see how it changes
-                  var doLoop = function() { 
-                    r = optimizer.step(6000); 
-                    if (r) { 
-                      var cost = optimizer.instance.energy();
-                      $('#cost').html('<p><strong>costo:</strong> ' + Math.round(cost) + '</p>');
-                      window.setTimeout(doLoop, 1) 
-                    } 
-                  };
-                  doLoop();
-
+                // Start optimization
+                var startComand = {
+                  'cmd': 'run',
+                  'problemData': preprocessed_data,
+                  'params': params,
+                };
+                worker.postMessage(startComand);
             })
           })
     </script>

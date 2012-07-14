@@ -1,5 +1,5 @@
 
-class TimeLineProblem extends ProblemInstance
+class TimeLineProblem
 
   @solution: []
   @prevSolution: []
@@ -97,7 +97,6 @@ class TimeLineProblem extends ProblemInstance
     from = @groupNames[i]
     to   = @groupNames[j]
 
-    #console.log( from + ' <> ' + to);
     prevPos = @groupPosition[to]
     @groupPosition[to] = @groupPosition[from]
     @groupPosition[from] = prevPos
@@ -137,6 +136,6 @@ class TimeLineProblem extends ProblemInstance
         @position2Groups.push k
 
 
-window.TimeLineProblem = TimeLineProblem
+navigator.TimeLineProblem = TimeLineProblem
 
 # vim: se ts=2 sw=2 expandtab ai:
