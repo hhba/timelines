@@ -61,45 +61,42 @@
       </div>
     </div>
 
-    <div class="container">
+    <div class="container-fluid">
 
 <form  name="myForm">
 
 
-<div class="hero-unit">
-  <h2>Visualize your timeline here</h2>
-  <p>You can use this <a class="btn btn-primary btn-large" id='btn' href="https://drive.google.com/previewtemplate?id=0Ah8aJJcr8vfjdFh1WmlxWVlGUkVfM2VTRFBCRUZoSXc&mode=public"> Template </a> from Google Spreadsheet to insert the data:
-      </p>
-    <p>
+<div class="row-fluid">
 
-  Once you have your information properly organized in columns [order] [characther] [group] you must get a RSS link. To do that, go to your Spreadsheet and select<ol>
- 
-    <li>1. File... </li>
-    <li>2. Publish to the web </li>
-    <li>3. Select the sheet </li>
-    <li>4. Click on "Start Publishing" (if not selected) </li>
-    <li>5. Click on [x] automatically republish </li>
-    <li>6. Get a link to the published data: RSS </li>
-    <li>7. Once you have the link, past it here (replace the one already pasted by default)  </li>
-    
-    </ol>
-  </p>
-<div class="clearfix">
-    <label>Paste the URL here</label>
-    <div class="input">
-        <input type="text" class="input-xxlarge" name="url" id='url' value='https://spreadsheets.google.com/feeds/list/0AroKqlZ3hHf0dEhKRS02cGs0QW9WcGpRTXRETm51Q0E/od5/public/basic?alt=rss' />
+  <span class="span2">
+    <h1>ShowTimeLine!</h1>
+    <h2>How to use</h2>
+    <p>The source data for this visualization comes from a Google Docs Spreadsheet. To create your own timeline use this Google Docs template.<br/><br/>
+    <a class="btn btn-primary btn-large" href="https://docs.google.com/previewtemplate?id=0Ah8aJJcr8vfjdFh1WmlxWVlGUkVfM2VTRFBCRUZoSXc&mode=public" target="_blank">Google Doc Template</a><br/><br/>
+    Once you have your information properly organized in columns [order] [characther] [group] you must get a RSS link. To do that, go to your Spreadsheet and select:
+      <ol>
+        <li>File... </li>
+        <li>Publish to the web </li>
+        <li>Select the sheet </li>
+        <li>Click on "Start Publishing" (if not selected) </li>
+        <li>Click on [x] automatically republish </li>
+        <li>Get a link to the published data: RSS </li>
+        <li>Once you have the link, past it in the URL field (replace the one already pasted by default)  </li> 
+      </ol>
+    </p>
+  </span>
+  <span class="span10">
+    <div class="clearfix">
+      <label>Paste the URL here</label>
+      <div class="input">
+          <input type="text" class="input-xxlarge" name="url" id='url' value='https://spreadsheets.google.com/feeds/list/0AroKqlZ3hHf0dEhKRS02cGs0QW9WcGpRTXRETm51Q0E/od5/public/basic?alt=rss' /><a class="btn btn-primary btn-large" id='btn'>Visualize</a>
+      </div>
     </div>
-    
+    <div id='cost'></div>
+    <div id='graph' style='width:1200px; height:600px; overflow: hidden;'></div>
+  </span>
+
 </div>
-  <p>
-    <a class="btn btn-primary btn-large" id='btn'>
-      Visualize
-    </a>
-      
-  </p>
-</div>
-<div id='cost'></div>
-<div id='graph' style='width:1200px; height:600px; overflow: hidden;'></div>
 
 </form>
 
@@ -107,10 +104,18 @@
      <!-- Footer
       ================================================== -->
       <footer class="footer">
-        <p class="pull-right"><a href="#">Back to top</a></p>
-        <p>Designed and built with all the love in the world <a href="http://twitter.com/twitter" target="_blank">@twitter</a> by <a href="http://twitter.com/mdo" target="_blank">@mdo</a> and <a href="http://twitter.com/fat" target="_blank">@fat</a>.</p>
-        <p>Code licensed under the <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache License v2.0</a>. Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.</p>
-        <p>Icons from <a href="http://glyphicons.com">Glyphicons Free</a>, licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.</p>
+
+        <div class="row-fluid">
+          <span class="span2">
+            <img src="assets/img/hhba.jpg" alt="Hacks/Hackers Buenos Aires Logo" />
+          </span>
+          <span class="span10">
+            <p class="pull-right"><a href="#">Back to top</a></p>
+            <p>Designed and built with all the love in the world <a href="http://twitter.com/twitter" target="_blank">@twitter</a> by <a href="http://twitter.com/mdo" target="_blank">@mdo</a> and <a href="http://twitter.com/fat" target="_blank">@fat</a>.</p>
+            <p>Code licensed under the <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache License v2.0</a>. Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.</p>
+            <p>Icons from <a href="http://glyphicons.com">Glyphicons Free</a>, licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.</p>
+          </span>
+        </div>
       </footer>
 
     </div><!-- /container -->
