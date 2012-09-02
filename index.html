@@ -90,6 +90,7 @@
       <label>Paste the URL here</label>
       <div class="input">
           <input type="text" class="input-xxlarge" name="url" id='url' value='https://spreadsheets.google.com/feeds/list/0AroKqlZ3hHf0dEhKRS02cGs0QW9WcGpRTXRETm51Q0E/od5/public/basic?alt=rss' /><a class="btn btn-primary btn-large" id='btn'>Visualize</a>
+          <a class="btn btn-primary btn-large" id="btn-download">Descargar SVG</a>
       </div>
     </div>
     <div id='cost'></div>
@@ -142,8 +143,26 @@
     <script src="assets/js/bootstrap-typeahead.js"></script>
     <script src="assets/js/application.js"></script>
     <script>
-    $("#btn").click(function(){
-        get_data(document.getElementById('url').value, function(data){
+    $(function() {
+
+      document.showtimeline = {running: false, firstTime: true};
+
+      $('#btn-download').click(function() {
+        var svgdata = $('#graph').html();
+        document.location.href = 'data:application/octet-stream, ' + encodeURIComponent(svgdata);
+      });
+
+      $("#btn").click(function() {
+
+        if (document.showtimeline.running == true) {
+          document.showtimeline.worker.terminate();
+          document.showtimeline.running = false;
+          $('#btn').html('Visualizar');
+          return;
+        }
+        
+        document.showtimeline.firstTime = false;
+        get_data(document.getElementById('url').value, function(data) {
 
                 // data a procesar
                 var preprocessed_data = preprocessData(data);
@@ -174,16 +193,18 @@
                 });
 
                 // worker que va a optimizar
-                var worker = new Worker('javascripts/worker.js');
+                document.showtimeline.worker = new Worker('javascripts/worker.js');
 
                 // Handle worker events
-                worker.addEventListener('message', function(e) {
+                document.showtimeline.worker.addEventListener('message', function(e) {
                   var cmd = e.data.cmd;
   
                   if (cmd == 'redraw') {
                     var o = e.data.optimizer;
                     grafico.loadData(o.solution, o.instance.groupPosition);
                     $('#cost').html('<p><strong>costo:</strong> ' + Math.round(e.data.cost) + '</p>');
+                  } else if (cmd == 'finish') {
+                    console.log('Finished!');
                   }
                 });
 
@@ -193,9 +214,13 @@
                   'problemData': preprocessed_data,
                   'params': params,
                 };
-                worker.postMessage(startComand);
+                document.showtimeline.worker.postMessage(startComand);
+                document.showtimeline.running = true;
+                $('#btn').html('Detener');
             })
           })
+    })
+
     </script>
 
 

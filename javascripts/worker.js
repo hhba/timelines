@@ -10,6 +10,7 @@ onmessage = function(e) {
       self.runOptimizer(e.data);
       break;
     case 'stop':
+      throw JSON.stringify({data:'Stopped!'});
       self.stopOptimizer(e.data);
       break;
   }
@@ -44,7 +45,7 @@ function runOptimizer(data) {
     }
     postMessage(redrawCommand);
   }
-
+  postMessage({cmd:'finish'});
 }
 
 // Stop optimization
